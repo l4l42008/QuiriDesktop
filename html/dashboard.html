@@ -1,0 +1,4952 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+
+<!-- ajusta a pagina pra telas menores -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiri — Dashboard</title>
+
+<!-- carrega os icones usados -->
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+<!-- carrega o css -->
+<link
+    rel="stylesheet"
+    href="../style/style.css"
+>
+
+<style>
+
+/* barra do topo */
+.topbar {
+    position: relative;
+    width: 100%;
+    height: 108px;
+    min-height: 108px;
+    background: #2D6A4F;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+/* infos do nutricionista no topo */
+.topbar-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* mensagem de saudacao */
+.topbar-greeting {
+    color: #F5EFE0;
+    font-size: 13px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    opacity: .9;
+}
+
+/* nome mostrado no topo */
+.topbar-name {
+    color: #F5EFE0;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 5px;
+}
+
+/* crn mostrado no topo */
+.topbar-crn {
+    color: #F5EFE0;
+    font-size: 12px;
+    line-height: 1;
+    opacity: .9;
+}
+
+/* area da logo */
+.topbar-logo {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* tamanho da logo */
+.topbar-logo svg {
+    width: 56px;
+    height: 56px;
+}
+
+/* acoes do lado direito */
+.topbar-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 22px;
+}
+
+/* icones das acoes do topo */
+.topbar-right i {
+    color: #F5EFE0;
+    font-size: 21px;
+    cursor: pointer;
+    transition: opacity .15s ease, transform .15s ease;
+}
+
+/* efeito ao passar o mouse nos icones */
+.topbar-right i:hover {
+    opacity: .75;
+    transform: translateY(-1px);
+}
+
+/* barra de navegacao inferior */
+.bottom-nav {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    z-index: 10;
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+}
+
+/* ordem do primeiro item da navegacao */
+.bottom-nav .nav-item:nth-child(1) {
+    order: 1;
+}
+
+/* ordem do segundo item da navegacao */
+.bottom-nav .nav-item:nth-child(2) {
+    order: 2;
+}
+
+/* ordem do terceiro item da navegacao */
+.bottom-nav .nav-item:nth-child(3) {
+    order: 3;
+}
+
+/* ordem do quarto item da navegacao */
+.bottom-nav .nav-item:nth-child(4) {
+    order: 4;
+}
+
+/* ordem do quinto item da navegacao */
+.bottom-nav .nav-item:nth-child(5) {
+    order: 5;
+}
+
+.hero,
+.hero-wave,
+/* esconde as abas antigas do dashboard */
+.dashboard-tabs {
+    display: none !important;
+}
+
+/* ajuste do espaco do conteudo */
+.content-scroll {
+    padding-top: 0 !important;
+}
+
+/* lista de temas disponiveis */
+.config-temas {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* botao de cada tema */
+.config-tema {
+    border: 1px solid #c8dfd4;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    font-family: inherit;
+    font-size: 11px;
+}
+
+/* bolinha que mostra a cor do tema */
+.config-cor {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 0 auto 6px;
+}
+
+/* tema que esta selecionado */
+.config-tema.active {
+    border: 2px solid #2D6A4F;
+}
+
+/* mensagem para listas sem dados */
+.lista-vazia {
+    text-align: center;
+    padding: 25px;
+    color: #6B9C84;
+    font-size: 13px;
+}
+
+/* card de cada dieta */
+.dieta-item {
+    border: 1px solid #d9e8e0;
+    border-radius: 12px;
+    padding: 13px;
+    margin-bottom: 10px;
+    background: #fff;
+}
+
+/* titulo da dieta */
+.dieta-titulo {
+    color: #1B4332;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+/* informacoes extras da dieta */
+.dieta-info {
+    color: #6B9C84;
+    font-size: 11px;
+}
+
+/* descricao da dieta */
+.dieta-descricao {
+    color: #555;
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+/* alinhamento das acoes de um item */
+.acoes-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* estilo do paciente inativo */
+.patient-badge.badge-inativo {
+    background: #f1f1f1;
+    color: #777;
+}
+
+/* ajustes pra telas menores */
+@media (max-width: 700px) {
+
+/* barra do topo */
+    .topbar {
+        padding: 0 18px;
+    }
+
+/* nome mostrado no topo */
+    .topbar-name {
+        font-size: 19px;
+    }
+
+/* acoes do lado direito */
+    .topbar-right {
+        gap: 12px;
+    }
+
+/* regra de estilo de .bottom-nav .nav-item span */
+    .bottom-nav .nav-item span {
+        font-size: 10px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<!-- corpo da pagina -->
+<body>
+
+<!-- estrutura principal do dashboard -->
+<div class="app">
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<!-- modal perfil -->
+<div
+    class="overlay"
+    id="modalDados"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('modalDados')"
+        >
+            <i class="ti ti-x"></i>
+        </button>
+
+        <h3>Meus dados</h3>
+
+        <div class="field-label">
+            Nome completo
+        </div>
+
+        <input
+            class="field-input"
+            type="text"
+            id="perfilNome"
+            maxlength="100"
+        >
+
+        <div class="field-label">
+            CPF
+        </div>
+
+        <input
+            class="field-input"
+            type="text"
+            id="perfilCpf"
+            maxlength="14"
+        >
+
+        <div class="field-label">
+            CRN
+        </div>
+
+        <input
+            class="field-input"
+            type="text"
+            id="perfilCrn"
+            maxlength="30"
+        >
+
+        <div class="field-label">
+            E-mail
+        </div>
+
+        <input
+            class="field-input"
+            type="email"
+            id="perfilEmail"
+            maxlength="255"
+            readonly
+            style="background: #e5e5e5; color: #666;"
+>
+
+        <div class="field-label">
+            Telefone
+        </div>
+
+        <input
+            class="field-input"
+            type="tel"
+            id="perfilTelefone"
+            maxlength="15"
+        >
+
+        <button
+            class="btn-green"
+            style="margin-top:14px;"
+            onclick="salvarDadosNutricionista()"
+        >
+            Salvar alterações
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- modal configuracoes -->
+<div
+    class="overlay"
+    id="modalConfiguracoes"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('modalConfiguracoes')"
+        >
+            <i class="ti ti-x"></i>
+        </button>
+
+        <h3>Configurações</h3>
+
+        <div
+            style="
+            font-size:13px;
+            font-weight:600;
+            color:#1B4332;
+            margin-bottom:8px;
+            "
+        >
+            Aparência
+        </div>
+
+        <div
+            style="
+            font-size:12px;
+            color:#6B9C84;
+            margin-bottom:12px;
+            "
+        >
+            Escolha a cor principal do Quiri
+        </div>
+
+        <div class="config-temas">
+
+            <div
+                class="config-tema active"
+                id="tema-verde"
+            >
+                <div
+                    class="config-cor"
+                    style="background:#2D6A4F;"
+                ></div>
+                Verde
+            </div>
+
+        </div>
+
+        <button
+            class="btn-green"
+            style="flex:1;
+            background:#dc3545;"
+    
+            onclick="sairDaConta()"
+        >
+            Sair da conta
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- modal paciente -->
+<div
+    class="overlay"
+    id="modalPaciente"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('modalPaciente')"
+        >
+            <i class="ti ti-x"></i>
+        </button>
+
+        <h3 id="mp-nome">
+            Paciente
+        </h3>
+
+        <div
+            style="
+            font-size:12px;
+            color:#6B9C84;
+            margin-bottom:18px;
+            "
+        >
+            Dados pessoais
+        </div>
+
+        <div class="field-label">
+            Nome
+        </div>
+
+        <div
+            id="mp-dados-nome"
+            style="
+            font-size:14px;
+            color:#1B4332;
+            font-weight:500;
+            margin-bottom:12px;
+            "
+        >
+            -
+        </div>
+
+        <div class="field-label">
+            Data de nascimento
+        </div>
+
+        <div
+            id="mp-dados-nascimento"
+            style="
+            font-size:14px;
+            color:#1B4332;
+            font-weight:500;
+            margin-bottom:12px;
+            "
+        >
+            -
+        </div>
+
+        <div class="field-label">
+            CPF
+        </div>
+
+        <div
+            id="mp-dados-cpf"
+            style="
+            font-size:14px;
+            color:#1B4332;
+            font-weight:500;
+            margin-bottom:18px;
+            "
+        >
+            Não informado
+        </div>
+
+        <div class="field-label">
+            Classificação
+        </div>
+        
+        <div
+            id="mp-dados-classificacao"
+            style="
+            margin-bottom:14px;
+            "
+        >
+            Não classificado
+        </div>
+
+        <button
+            class="btn-outline"
+            style="
+            width:100%;
+            margin-top:0;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:12px 14px;
+            "
+            onclick="abrirDietasPaciente()"
+        >
+
+            <span
+                style="
+                display:flex;
+                align-items:center;
+                gap:8px;
+                "
+            >
+                <i class="ti ti-salad"></i>
+                Dietas
+            </span>
+
+            <i class="ti ti-chevron-right"></i>
+
+        </button>
+
+        <div
+            style="
+            display:flex;
+            gap:8px;
+            margin-top:14px;
+            "
+        >
+
+            <button
+                class="btn-outline"
+                style="
+                flex:1;
+                margin-top:0;
+                font-size:13px;
+                "
+                onclick="
+                openModal('modalEditarPaciente');
+                closeModal('modalPaciente')
+                "
+            >
+                <i class="ti ti-edit"></i>
+                Editar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- modal dietas do paciente -->
+<div
+    class="overlay"
+    id="modalDietasPaciente"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('modalDietasPaciente')"
+        >
+            <i class="ti ti-x"></i>
+        </button>
+
+        <h3>
+            Dietas do paciente
+        </h3>
+
+        <div
+            id="dietasPacienteNome"
+            style="
+            font-size:12px;
+            color:#6B9C84;
+            margin-bottom:16px;
+            "
+        >
+            Paciente
+        </div>
+
+        <div id="listaDietasPaciente">
+
+            <div class="lista-vazia">
+                Carregando dietas...
+            </div>
+
+        </div>
+
+        <button
+            class="btn-green"
+            style="margin-top:10px;"
+            onclick="abrirNovaDietaPaciente()"
+        >
+            <i class="ti ti-plus"></i>
+            Nova dieta
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- modal editar paciente -->
+<div
+    class="overlay"
+    id="modalEditarPaciente"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('modalEditarPaciente')"
+        >
+            <i class="ti ti-x"></i>
+        </button>
+
+        <h3>
+            Editar paciente
+        </h3>
+
+        <div class="field-label">
+            Nome
+        </div>
+
+        <input
+            class="field-input"
+            type="text"
+            id="editarPacienteNome"
+            maxlength="100"
+            readonly
+            style="
+            background:#e5e5e5;
+            color:#666;
+            "
+        >
+
+        <div class="field-label">
+            Data de nascimento
+        </div>
+
+        <input
+            class="field-input"
+            type="date"
+            id="editarPacienteNascimento"
+            readonly
+            style="
+            background:#e5e5e5;
+            color:#666;
+            "
+        >
+
+        <div class="field-label">
+            CPF
+        </div>
+        
+        <input
+            class="field-input"
+            type="text"
+            id="editarPacienteCpf"
+            maxlength="14"
+            readonly
+            style="
+            background:#e5e5e5;
+            color:#666;
+            "
+        >
+
+        <div class="field-label">
+            Classificação
+        </div>
+
+        <select
+            class="field-input"
+            id="editarPacienteClassificacao"
+        >
+
+            <option value="sem_restricoes">
+                Sem restrições
+            </option>
+
+            <option value="intolerancia_lactose">
+                Intolerância à lactose
+            </option>
+
+            <option value="alergia_proteina_leite">
+                Alergia à proteína do leite de vaca (APLV)
+            </option>
+
+            <option value="hipersensibilidade_leite">
+                Hipersensibilidade às proteínas do leite
+            </option>
+
+            <option value="alergia_caseina">
+                Alergia à caseína
+            </option>
+
+            <option value="alergia_soro_leite">
+                Alergia às proteínas do soro do leite
+            </option>
+
+            <option value="alergia_trigo">
+                Alergia ao trigo
+            </option>
+
+            <option value="alergia_ovo">
+                Alergia ao ovo
+            </option>
+
+            <option value="alergia_soja">
+                Alergia à soja
+            </option>
+
+            <option value="alergia_amendoim">
+                Alergia ao amendoim
+            </option>
+
+            <option value="alergia_castanhas">
+                Alergia a castanhas e oleaginosas
+            </option>
+
+            <option value="alergia_peixes">
+                Alergia a peixes
+            </option>
+
+            <option value="alergia_frutos_mar">
+                Alergia a frutos do mar
+            </option>
+
+            <option value="alergia_outra">
+                Outra alergia alimentar
+            </option>
+
+            <option value="doenca_celiaca">
+                Doença celíaca
+            </option>
+
+            <option value="sensibilidade_gluten">
+                Sensibilidade ao glúten não celíaca
+            </option>
+
+            <option value="restricao_gluten">
+                Restrição ao glúten
+            </option>
+
+            <option value="diabetes">
+                Diabetes
+            </option>
+
+            <option value="hipertensao">
+                Hipertensão
+            </option>
+
+            <option value="dislipidemia">
+                Dislipidemia
+            </option>
+
+            <option value="obesidade">
+                Obesidade
+            </option>
+
+            <option value="doenca_renal">
+                Doença renal
+            </option>
+
+            <option value="doenca_hepatica">
+                Doença hepática
+            </option>
+
+            <option value="outra_condicao">
+                Outra condição ou restrição alimentar
+            </option>
+
+        </select>
+
+        <button
+            class="btn-green"
+            style="margin-top:14px;"
+            onclick="salvarPaciente()"
+        >
+            Salvar
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- modal consulta -->
+<div
+    class="overlay"
+    id="modalConsulta"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('modalConsulta')"
+        >
+            <i class="ti ti-x"></i>
+        </button>
+
+        <h3>
+            Agendar consulta
+        </h3>
+
+        <div class="field-label">
+            Paciente
+        </div>
+
+        <select
+            class="field-input"
+            id="consultaPaciente"
+        >
+            <option value="">
+                Selecione um paciente
+            </option>
+        </select>
+
+        <div class="field-label">
+            Data
+        </div>
+
+        <input
+            class="field-input"
+            type="date"
+            id="consultaData"
+        >
+
+        <div class="field-label">
+            Horário
+        </div>
+
+        <input
+            class="field-input"
+            type="time"
+            id="consultaHorario"
+        >
+
+        <button
+            class="btn-green"
+            style="margin-top:14px;"
+            onclick="salvarConsulta()"
+        >
+            Agendar
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- modal dieta -->
+<div
+    class="overlay"
+    id="modalDieta"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('modalDieta')"
+        >
+            <i class="ti ti-x"></i>
+        </button>
+
+        <h3>
+            Nova dieta
+        </h3>
+
+        <div class="field-label">
+            Paciente
+        </div>
+
+        <select
+            class="field-input"
+            id="dietaPaciente"
+        >
+            <option value="">
+                Selecione um paciente
+            </option>
+        </select>
+
+        <div class="field-label">
+            Título
+        </div>
+
+        <input
+            class="field-input"
+            type="text"
+            id="dietaTitulo"
+            maxlength="100"
+            placeholder="Ex: Dieta para manutenção"
+        >
+
+        <div class="field-label">
+            Descrição
+        </div>
+
+        <textarea
+            class="field-input"
+            rows="4"
+            id="dietaDescricao"
+            style="resize:none;"
+            placeholder="Descreva a dieta..."
+        ></textarea>
+
+        <div class="field-label">
+            Data de início
+        </div>
+
+        <input
+            class="field-input"
+            type="date"
+            id="dietaDataInicio"
+        >
+
+        <div class="field-label">
+            Data de fim
+        </div>
+
+        <input
+            class="field-input"
+            type="date"
+            id="dietaDataFim"
+        >
+
+        <button
+            class="btn-green"
+            style="margin-top:14px;"
+            onclick="salvarDieta()"
+        >
+            Salvar dieta
+        </button>
+
+    </div>
+
+</div>
+
+<!-- modal editar dieta -->
+<div
+    class="overlay"
+    id="modalEditarDieta"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('modalEditarDieta')"
+        >
+            <i class="ti ti-x"></i>
+        </button>
+
+        <h3>
+            Editar dieta
+        </h3>
+
+        <div class="field-label">
+            Paciente
+        </div>
+
+        <select
+            class="field-input"
+            id="editarDietaPaciente"
+        >
+            <option value="">
+                Selecione um paciente
+            </option>
+        </select>
+
+        <div class="field-label">
+            Título
+        </div>
+
+        <input
+            class="field-input"
+            type="text"
+            id="editarDietaTitulo"
+            maxlength="100"
+        >
+
+        <div class="field-label">
+            Descrição
+        </div>
+
+        <textarea
+            class="field-input"
+            rows="4"
+            id="editarDietaDescricao"
+            style="resize:none;"
+        ></textarea>
+
+        <div class="field-label">
+            Data de início
+        </div>
+
+        <input
+            class="field-input"
+            type="date"
+            id="editarDietaDataInicio"
+        >
+
+        <div class="field-label">
+            Data de fim
+        </div>
+
+        <input
+            class="field-input"
+            type="date"
+            id="editarDietaDataFim"
+        >
+
+        <button
+            class="btn-green"
+            style="margin-top:14px;"
+            onclick="salvarEdicaoDieta()"
+        >
+            Salvar alterações
+        </button>
+
+    </div>
+
+</div>
+
+<!-- modal relatorio -->
+<div
+    class="overlay"
+    id="modalRelatorio"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('modalRelatorio')"
+        >
+            <i class="ti ti-x"></i>
+        </button>
+
+        <h3>
+            Novo relatório
+        </h3>
+
+        <div class="field-label">
+            Título
+        </div>
+
+        <input
+            class="field-input"
+            type="text"
+            id="relatorioTitulo"
+            maxlength="100"
+            placeholder="Ex: Evolução mensal"
+        >
+
+        <div class="field-label">
+            Paciente
+        </div>
+
+        <select
+            class="field-input"
+            id="relatorioPaciente"
+        >
+            <option value="">
+                Selecione um paciente
+            </option>
+        </select>
+
+        <div class="field-label">
+            Descrição
+        </div>
+
+        <textarea
+            class="field-input"
+            rows="6"
+            id="relatorioDescricao"
+            style="resize:none;"
+            placeholder="Descreva a evolução do paciente..."
+        ></textarea>
+
+        <button
+            class="btn-green"
+            style="margin-top:14px;"
+            onclick="salvarRelatorio()"
+        >
+            Salvar relatório
+        </button>
+
+    </div>
+
+</div>
+
+<!-- modal editar relatorio -->
+<div
+    class="overlay"
+    id="modalEditarRelatorio"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="modal-close"
+            onclick="closeModal('modalEditarRelatorio')"
+        >
+            <i class="ti ti-x"></i>
+        </button>
+
+        <h3>
+            Editar relatório
+        </h3>
+
+        <div class="field-label">
+            Título
+        </div>
+
+        <input
+            class="field-input"
+            type="text"
+            id="editarRelatorioTitulo"
+            maxlength="100"
+        >
+
+        <div class="field-label">
+            Paciente
+        </div>
+
+        <input
+            class="field-input"
+            type="text"
+            id="editarRelatorioPaciente"
+            readonly
+            style="
+            background:#eeeeee;
+            color:#777777;
+            cursor:not-allowed;
+            "
+        >
+
+        <div class="field-label">
+            Data
+        </div>
+
+        <input
+            class="field-input"
+            type="text"
+            id="editarRelatorioData"
+            readonly
+            style="
+            background:#eeeeee;
+            color:#777777;
+            cursor:not-allowed;
+            "
+        >
+
+        <div class="field-label">
+            Descrição
+        </div>
+
+        <textarea
+            class="field-input"
+            rows="6"
+            id="editarRelatorioDescricao"
+            style="resize:none;"
+        ></textarea>
+
+        <div style="
+    display:flex;
+    gap:10px;
+    margin-top:14px;
+">
+
+    <button
+        class="btn-green"
+        style="flex:1;"
+        onclick="salvarEdicaoRelatorio()"
+    >
+        Salvar alterações
+    </button>
+
+    <button
+        class="btn-green"
+        style="
+            flex:1;
+            background:#dc3545;
+        "
+        onclick="apagarRelatorioAtual()"
+    >
+        <i class="ti ti-trash"></i>
+        Apagar relatório
+    </button>
+
+</div>
+
+    </div>
+
+</div>
+
+<!-- topbar -->
+<div class="topbar">
+
+    <div class="topbar-info">
+
+        <div class="topbar-greeting">
+            Olá, Dr(a).
+        </div>
+
+        <div
+            class="topbar-name"
+            id="nomeNutricionista"
+        >
+            Carregando...
+        </div>
+
+        <div
+            class="topbar-crn"
+            id="dadosNutricionista"
+        >
+            Carregando dados...
+        </div>
+
+    </div>
+
+    <div class="topbar-logo">
+        <img src="../imagens/logobranca.png" alt="logo quiri" class="topbar-logo">
+
+            <line
+                x1="49"
+                y1="35"
+                x2="55"
+                y2="41"
+                stroke="#F5EFE0"
+                stroke-width="3"
+                stroke-linecap="round"
+            />
+
+            <circle
+                cx="38"
+                cy="16"
+                r="4"
+                fill="#F5EFE0"
+            />
+
+        </svg>
+
+    </div>
+
+    <div class="topbar-right">
+
+        <i
+            class="ti ti-user-circle"
+            onclick="abrirPerfil()"
+            title="Meu perfil"
+        ></i>
+
+        <i
+            class="ti ti-settings"
+            onclick="openModal('modalConfiguracoes')"
+            title="Configurações"
+        ></i>
+
+
+    </div>
+
+</div>
+
+
+<!-- navegacao -->
+<div class="bottom-nav">
+
+    <div
+        class="nav-item"
+        onclick="showTab('tabPacientes')"
+    >
+        <i class="ti ti-users"></i>
+        <span>Pacientes</span>
+    </div>
+
+    <div
+        class="nav-item"
+        onclick="showTab('tabAgenda')"
+    >
+        <i class="ti ti-calendar"></i>
+        <span>Agenda</span>
+    </div>
+
+    <div
+        class="nav-item active"
+        onclick="showTab('tabInicio')"
+    >
+        <i class="ti ti-home"></i>
+        <span>Início</span>
+    </div>
+
+    <div
+        class="nav-item"
+        onclick="showTab('tabDietas')"
+    >
+        <i class="ti ti-salad"></i>
+        <span>Dietas</span>
+    </div>
+
+    <div
+        class="nav-item"
+        onclick="showTab('tabRelatorios')"
+    >
+        <i class="ti ti-file-text"></i>
+        <span>Relatórios</span>
+    </div>
+
+</div>
+
+
+<!-- conteudo -->
+<div
+    class="content-scroll"
+    id="dashContent"
+>
+
+
+<!-- inicio -->
+<div
+    id="tabInicio"
+    class="tab-content"
+>
+
+    <!-- bloco de conteudo do dashboard -->
+    <div class="section">
+
+        <div
+            class="stats-row"
+            style="margin-top:12px;"
+        >
+
+            <!-- card de estatistica -->
+            <div class="stat-card">
+
+                <div
+                    class="stat-num"
+                    id="statPacientes"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Pacientes
+                </div>
+
+            </div>
+
+            <!-- card de estatistica -->
+            <div class="stat-card">
+
+                <div
+                    class="stat-num"
+                    id="statConsultas"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Consultas marcadas
+                </div>
+
+            </div>
+
+            <!-- card de estatistica -->
+            <div class="stat-card">
+
+                <div
+                    class="stat-num"
+                    id="statFeedbacks"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Feedbacks
+                </div>
+
+            </div>
+
+            <!-- card de estatistica -->
+            <div class="stat-card">
+
+                <div
+                    class="stat-num"
+                    id="statRelatorios"
+                >
+                    0
+                </div>
+
+                <div class="stat-label">
+                    Relatórios
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- bloco de conteudo do dashboard -->
+    <div class="section">
+
+        <div class="section-title">
+            Feedbacks
+        </div>
+
+        <div id="listaFeedbacks">
+
+            <div class="feedback-item">
+
+                <div class="fb-comment">
+                    Carregando feedbacks...
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- pacientes -->
+<div
+    id="tabPacientes"
+    class="tab-content"
+    style="display:none;"
+>
+
+    <div
+        class="section"
+        style="padding-top:14px;"
+    >
+
+        <div
+            style="
+            display:flex;
+            align-items:center;
+            gap:8px;
+            margin-bottom:12px;
+            "
+        >
+
+            <div
+                style="
+                flex:1;
+                position:relative;
+                "
+            >
+
+                <i
+                    class="ti ti-search"
+                    style="
+                    position:absolute;
+                    left:10px;
+                    top:50%;
+                    transform:translateY(-50%);
+                    color:#6B9C84;
+                    font-size:16px;
+                    "
+                ></i>
+
+                <input
+                    class="field-input"
+                    id="buscaPaciente"
+                    type="text"
+                    placeholder="Buscar paciente..."
+                    style="
+                    padding-left:34px;
+                    margin-top:0;
+                    "
+                    oninput="filtrarPacientes()"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="section-title">
+            Meus pacientes
+        </div>
+
+        <div id="listaPacientes">
+
+            <div
+                class="patient-card"
+                style="justify-content:center;"
+            >
+                Carregando pacientes...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- agenda -->
+<div
+    id="tabAgenda"
+    class="tab-content"
+    style="display:none;"
+>
+
+    <div
+        class="section"
+        style="padding-top:14px;"
+    >
+
+        <div
+            style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:10px;
+            "
+        >
+
+            <div
+                class="section-title"
+                style="margin-bottom:0;"
+            >
+                Agenda
+            </div>
+
+            <button
+                class="btn-green"
+                style="
+                width:auto;
+                padding:6px 12px;
+                font-size:12px;
+                "
+                onclick="openModal('modalConsulta')"
+            >
+                <i class="ti ti-plus"></i>
+                Nova consulta
+            </button>
+
+        </div>
+
+        <div id="listaConsultas">
+
+            <div
+                class="sched-block"
+                style="text-align:center;"
+            >
+                Carregando consultas...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- dietas -->
+<div
+    id="tabDietas"
+    class="tab-content"
+    style="display:none;"
+>
+
+    <div
+        class="section"
+        style="padding-top:14px;"
+    >
+
+        <div
+            style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:10px;
+            "
+        >
+
+            <div
+                class="section-title"
+                style="margin-bottom:0;"
+            >
+                Dietas
+            </div>
+
+            <button
+                class="btn-green"
+                style="
+                width:auto;
+                padding:6px 12px;
+                font-size:12px;
+                "
+                onclick="abrirNovaDieta()"
+            >
+                <i class="ti ti-plus"></i>
+                Nova dieta
+            </button>
+
+        </div>
+
+        <div id="listaDietas">
+
+            <div class="lista-vazia">
+                Carregando dietas...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- relatorios -->
+<div
+    id="tabRelatorios"
+    class="tab-content"
+    style="display:none;"
+>
+
+    <div
+        class="section"
+        style="padding-top:14px;"
+    >
+
+        <div
+            style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:12px;
+            "
+        >
+
+            <div
+                class="section-title"
+                style="margin-bottom:0;"
+            >
+                Relatórios salvos
+            </div>
+
+            <button
+                class="btn-green"
+                style="
+                width:auto;
+                padding:6px 12px;
+                font-size:12px;
+                "
+                onclick="abrirNovoRelatorio()"
+            >
+                <i class="ti ti-plus"></i>
+                Novo relatório
+            </button>
+
+        </div>
+
+        <div id="listaRelatorios">
+
+            <div
+                class="report-item"
+                style="justify-content:center;"
+            >
+                Carregando relatórios...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</div>
+
+</div>
+
+<script>
+
+/* abre um modal pelo id */
+function openModal(id) {
+
+    var modal =
+        document.getElementById(id);
+
+    if (modal) {
+        modal.classList.add("open");
+    }
+
+}
+
+/* fecha um modal pelo id */
+function closeModal(id) {
+
+    var modal =
+        document.getElementById(id);
+
+    if (modal) {
+        modal.classList.remove("open");
+    }
+
+}
+
+/* mostra uma mensagem rapida na tela */
+function showToast(msg, color) {
+
+    var toast =
+        document.getElementById("toast");
+
+    if (!toast) {
+        return;
+    }
+
+    toast.style.background =
+        color || "#2D6A4F";
+
+    toast.textContent =
+        msg;
+
+    toast.classList.add("show");
+
+    setTimeout(function() {
+
+        toast.classList.remove("show");
+
+    }, 3000);
+
+}
+
+
+/* troca de aba */
+function showTab(id) {
+
+    document
+        .querySelectorAll(".tab-content")
+        .forEach(function(tab) {
+
+            tab.style.display =
+                "none";
+
+        });
+
+    var aba =
+        document.getElementById(id);
+
+    if (aba) {
+        aba.style.display =
+            "block";
+    }
+
+    var itens =
+        document.querySelectorAll(
+            ".bottom-nav .nav-item"
+        );
+
+    itens.forEach(function(item) {
+
+        item.classList.remove(
+            "active"
+        );
+
+    });
+
+    var mapa = {
+
+        tabPacientes: 0,
+        tabAgenda: 1,
+        tabInicio: 2,
+        tabDietas: 3,
+        tabRelatorios: 4
+
+    };
+
+    if (
+        mapa[id] !== undefined &&
+        itens[mapa[id]]
+    ) {
+
+        itens[mapa[id]]
+            .classList.add("active");
+
+    }
+
+    var conteudo =
+        document.getElementById(
+            "dashContent"
+        );
+
+    if (conteudo) {
+        conteudo.scrollTop = 0;
+    }
+
+}
+
+
+/* perfil */
+function abrirPerfil() {
+
+    preencherPerfil();
+
+    openModal(
+        "modalDados"
+    );
+
+}
+
+
+/* preenche o perfil com os dados atuais */
+function preencherPerfil() {
+
+    var nutricionista =
+        window.nutricionistaAtual;
+
+    if (!nutricionista) {
+        return;
+    }
+
+    document.getElementById(
+        "perfilNome"
+    ).value =
+        nutricionista.nome || "";
+
+    document.getElementById(
+        "perfilCpf"
+    ).value =
+        nutricionista.cpf || "";
+
+    document.getElementById(
+        "perfilCrn"
+    ).value =
+        nutricionista.crn || "";
+
+    document.getElementById(
+        "perfilEmail"
+    ).value =
+        nutricionista.email || "";
+
+    document.getElementById(
+        "perfilTelefone"
+    ).value =
+        nutricionista.telefone || "";
+
+}
+
+
+/* salva as alteracoes dos dados do nutricionista */
+async function salvarDadosNutricionista() {
+
+var uid =
+    localStorage.getItem(
+        "uidNutricionista"
+    );
+
+if (!uid) {
+
+    showToast(
+        "Nutricionista não identificada",
+        "#c0625a"
+    );
+
+    return;
+
+}
+
+var dados = {
+
+    nome:
+        document.getElementById(
+            "perfilNome"
+        ).value,
+
+    cpf:
+        document.getElementById(
+            "perfilCpf"
+        ).value,
+
+    crn:
+        document.getElementById(
+            "perfilCrn"
+        ).value,
+
+    telefone:
+        document.getElementById(
+            "perfilTelefone"
+        ).value,
+
+    email:
+        document.getElementById(
+            "perfilEmail"
+        ).value
+
+};
+
+try {
+
+    var resposta =
+        await fetch(
+            "/api/nutricionista/" +
+            encodeURIComponent(uid),
+            {
+
+                method:
+                    "PUT",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify(dados)
+
+            }
+        );
+
+    var resultado =
+        await resposta.json();
+
+    if (!resposta.ok) {
+
+        showToast(
+            resultado.mensagem ||
+            "Não foi possível atualizar os dados",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    // atualiza os dados mostrados no dashboard
+    window.nutricionistaAtual = {
+        ...window.nutricionistaAtual,
+        ...dados
+
+    };
+
+    document.getElementById(
+        "nomeNutricionista"
+    ).textContent =
+        dados.nome ||
+        "Nutricionista";
+
+    document.getElementById(
+        "dadosNutricionista"
+    ).textContent =
+        dados.crn
+        ? "CRN " +
+          dados.crn
+        : "Dados profissionais";
+
+    showToast(
+        "✓ Dados atualizados",
+        "#2D6A4F"
+    );
+
+    closeModal(
+        "modalDados"
+    );
+
+} catch (erro) {
+
+    console.error(
+        "Erro ao atualizar dados:",
+        erro
+    );
+    
+    showToast(
+        "Erro ao conectar com o servidor",
+        "#c0625a"
+    );
+
+}
+
+}
+
+
+/* sair da conta */
+function sairDaConta() {
+
+    localStorage.removeItem(
+        "uidNutricionista"
+    );
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+/* carrega dashboard */
+async function carregarDashboard() {
+
+var uid =
+    localStorage.getItem(
+        "uidNutricionista"
+    );
+
+if (!uid) {
+
+    window.location.href =
+        "login.html";
+
+    return;
+
+}
+
+try {
+
+    var resposta =
+        await fetch(
+            "/api/nutricionista/dashboard?uid=" +
+            encodeURIComponent(uid)
+        );
+
+    var resultado =
+        await resposta.json();
+
+    if (!resposta.ok) {
+
+        showToast(
+            resultado.mensagem ||
+            "Não foi possível carregar os dados",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    carregarNutricionista(
+        resultado.nutricionista
+    );
+
+    carregarPacientes(
+        resultado.pacientes || []
+    );
+
+    carregarConsultas(
+        resultado.consultas || []
+    );
+
+    carregarDietas(
+        resultado.dietas || []
+    );
+
+    carregarFeedbacks(
+        resultado.feedbacks || []
+    );
+
+    carregarRelatorios(
+        resultado.relatorios || []
+    );
+
+    atualizarEstatisticas(
+        resultado
+    );
+
+} catch (erro) {
+
+    console.error(
+        "Erro ao carregar dashboard:",
+        erro
+    );
+
+    showToast(
+        "Erro ao conectar com o servidor",
+        "#c0625a"
+    );
+
+}
+
+}
+
+
+/* nutricionista */
+function carregarNutricionista(
+    nutricionista
+) {
+
+    if (!nutricionista) {
+        return;
+    }
+
+    window.nutricionistaAtual =
+        nutricionista;
+
+    document.getElementById(
+        "nomeNutricionista"
+    ).textContent =
+        nutricionista.nome ||
+        "Nutricionista";
+
+    document.getElementById(
+        "dadosNutricionista"
+    ).textContent =
+        nutricionista.crn
+        ? "CRN " +
+          nutricionista.crn
+        : "Dados profissionais";
+
+}
+
+
+/* pacientes */
+function carregarPacientes(
+    pacientes
+) {
+
+    window.pacientesAtuais =
+        pacientes;
+
+    var lista =
+        document.getElementById(
+            "listaPacientes"
+        );
+
+    if (!lista) {
+        return;
+    }
+
+    lista.innerHTML =
+        "";
+
+    [
+        "consultaPaciente",
+        "dietaPaciente",
+        "relatorioPaciente"
+    ].forEach(function(id) {
+
+        var select =
+            document.getElementById(
+                id
+            );
+
+        if (select) {
+
+            select.innerHTML =
+                '<option value="">Selecione um paciente</option>';
+
+        }
+
+    });
+
+    if (!pacientes.length) {
+
+        lista.innerHTML =
+            '<div class="lista-vazia">Nenhum paciente encontrado.</div>';
+
+        return;
+
+    }
+
+    pacientes.forEach(
+        function(paciente) {
+
+            var nome =
+                paciente.nome ||
+                "Paciente";
+
+            var nascimento =
+                paciente.nascimento ||
+                "";
+
+            var ativo =
+                paciente.ativo !== false;
+
+            var card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "patient-card";
+
+            card.dataset.nome =
+                nome.toLowerCase();
+
+            card.onclick =
+                function() {
+
+                    abrirPaciente(
+                        paciente
+                    );
+
+                };
+
+            card.innerHTML =
+
+                '<div class="avatar">' +
+
+                    escaparHtml(
+                        gerarIniciais(
+                            nome
+                        )
+                    ) +
+
+                '</div>' +
+
+                '<div class="patient-info">' +
+
+                    '<div class="patient-name">' +
+
+                        escaparHtml(
+                            nome
+                        ) +
+
+                    '</div>' +
+
+                    '<div class="patient-sub">' +
+
+                        (
+                            nascimento
+
+                            ?
+
+                            "Nascimento: " +
+                            escaparHtml(
+                                formatarData(
+                                    nascimento
+                                )
+                            )
+
+                            :
+
+                            "Paciente cadastrado"
+                        )
+                        
+
+                    '</div>' +
+
+                '</div>' +
+
+                '<span class="patient-badge ' +
+
+                    (
+                        ativo
+                        ? "badge-ok"
+                        : "badge-inativo"
+                    ) +
+
+                '">' +
+
+                    (
+                        ativo
+                        ? "Ativo"
+                        : "Inativo"
+                    ) +
+
+                '</span>';
+
+            lista.appendChild(
+                card
+            );
+
+            adicionarPacienteSelect(
+                paciente.id,
+                nome
+            );
+
+        }
+    );
+
+}
+
+/* adiciona um paciente nos selects */
+function adicionarPacienteSelect(
+    id,
+    nome
+) {
+
+    [
+        "consultaPaciente",
+        "dietaPaciente",
+        "relatorioPaciente"
+    ].forEach(
+        function(selectId) {
+
+            var select =
+                document.getElementById(
+                    selectId
+                );
+
+            if (!select) {
+                return;
+            }
+
+            var option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                id || "";
+
+            option.textContent =
+                nome;
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* abre paciente */
+function abrirPaciente(
+    paciente
+) {
+
+    window.pacienteAtual =
+        paciente;
+
+    document.getElementById(
+        "mp-nome"
+    ).textContent =
+        paciente.nome ||
+        "Paciente";
+
+    document.getElementById(
+        "mp-dados-nome"
+    ).textContent =
+        paciente.nome ||
+        "Não informado";
+
+    document.getElementById(
+        "mp-dados-nascimento"
+    ).textContent =
+        paciente.nascimento
+        ?
+        formatarData(
+            paciente.nascimento
+        )
+        :
+        "Não informado";
+
+    document.getElementById(
+        "mp-dados-cpf"
+    ).textContent =
+        paciente.cpf ||
+        "Não informado";
+
+    document.getElementById(
+        "editarPacienteCpf"
+    ).value =
+        paciente.cpf || "";
+
+        var classificacoes = {
+sem_restricoes:
+    "Sem restrições",
+
+intolerancia_lactose:
+    "Intolerância à lactose",
+
+alergia_proteina_leite:
+    "Alergia à proteína do leite de vaca (APLV)",
+
+hipersensibilidade_leite:
+    "Hipersensibilidade às proteínas do leite",
+
+alergia_caseina:
+    "Alergia à caseína",
+
+alergia_soro_leite:
+    "Alergia às proteínas do soro do leite",
+
+alergia_trigo:
+    "Alergia ao trigo",
+
+alergia_ovo:
+    "Alergia ao ovo",
+
+alergia_soja:
+    "Alergia à soja",
+
+alergia_amendoim:
+    "Alergia ao amendoim",
+
+alergia_castanhas:
+    "Alergia a castanhas e oleaginosas",
+
+alergia_peixes:
+    "Alergia a peixes",
+
+alergia_frutos_mar:
+    "Alergia a frutos do mar",
+
+alergia_outra:
+    "Outra alergia alimentar",
+
+doenca_celiaca:
+    "Doença celíaca",
+
+sensibilidade_gluten:
+    "Sensibilidade ao glúten não celíaca",
+
+restricao_gluten:
+    "Restrição ao glúten",
+
+diabetes:
+    "Diabetes",
+
+hipertensao:
+    "Hipertensão",
+
+dislipidemia:
+    "Dislipidemia",
+
+obesidade:
+    "Obesidade",
+
+doenca_renal:
+    "Doença renal",
+
+doenca_hepatica:
+    "Doença hepática",
+
+outra_condicao:
+    "Outra condição ou restrição alimentar"
+
+};
+
+document.getElementById(
+"mp-dados-classificacao"
+).textContent =
+classificacoes[
+    paciente.classificacao
+] ||
+"Não classificado";
+
+    document.getElementById(
+        "editarPacienteNome"
+    ).value =
+        paciente.nome || "";
+
+    document.getElementById(
+        "editarPacienteNascimento"
+    ).value =
+        formatarDataInput(
+            paciente.nascimento
+        );
+
+    openModal(
+        "modalPaciente"
+    );
+
+}
+
+
+/* abre nova dieta */
+function abrirNovaDieta() {
+
+    var select =
+        document.getElementById(
+            "dietaPaciente"
+        );
+
+    if (select) {
+        select.value = "";
+    }
+
+    document.getElementById(
+        "dietaTitulo"
+    ).value =
+        "";
+
+    document.getElementById(
+        "dietaDescricao"
+    ).value =
+        "";
+
+    document.getElementById(
+        "dietaDataInicio"
+    ).value =
+        "";
+
+    document.getElementById(
+        "dietaDataFim"
+    ).value =
+        "";
+
+    openModal(
+        "modalDieta"
+    );
+
+}
+
+
+/* abre novo relatorio */
+function abrirNovoRelatorio() {
+
+    var select =
+        document.getElementById(
+            "relatorioPaciente"
+        );
+
+    if (select) {
+        select.value = "";
+    }
+
+    document.getElementById(
+        "relatorioTitulo"
+    ).value =
+        "";
+
+    document.getElementById(
+        "relatorioDescricao"
+    ).value =
+        "";
+
+    openModal(
+        "modalRelatorio"
+    );
+
+}
+
+/* salvar relatório */
+async function salvarRelatorio() {
+
+var titulo =
+    document.getElementById(
+        "relatorioTitulo"
+    ).value.trim();
+
+var paciente =
+    document.getElementById(
+        "relatorioPaciente"
+    ).value;
+
+var descricao =
+    document.getElementById(
+        "relatorioDescricao"
+    ).value.trim();
+
+if (
+    !titulo ||
+    !paciente ||
+    !descricao
+) {
+
+    showToast(
+        "⚠ Preencha todos os campos",
+        "#c0625a"
+    );
+
+    return;
+
+}
+
+try {
+
+    var resposta =
+        await fetch(
+            "/api/relatorios",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    titulo:
+                        titulo,
+
+                    id_paciente:
+                        paciente,
+
+                    descricao:
+                        descricao
+
+                })
+            }
+        );
+
+    var resultado =
+        await resposta.json();
+
+    if (!resposta.ok) {
+
+        showToast(
+            resultado.mensagem ||
+            "Não foi possível salvar o relatório",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    closeModal(
+        "modalRelatorio"
+    );
+
+    document.getElementById(
+        "relatorioTitulo"
+    ).value =
+        "";
+
+    document.getElementById(
+        "relatorioDescricao"
+    ).value =
+        "";
+
+    showToast(
+        "✓ Relatório salvo",
+        "#2D6A4F"
+    );
+
+    await carregarDashboard();
+
+} catch (erro) {
+
+    console.error(
+        "Erro ao salvar relatório:",
+        erro
+    );
+
+    showToast(
+        "Erro ao conectar com o servidor.",
+        "#c0625a"
+    );
+
+}
+
+}
+
+/* abre nova dieta pelo paciente */
+function abrirNovaDietaPaciente() {
+
+    closeModal(
+        "modalDietasPaciente"
+    );
+
+    abrirNovaDieta();
+
+    if (
+        window.pacienteAtual &&
+        document.getElementById("dietaPaciente")
+    ) {
+
+        document.getElementById(
+            "dietaPaciente"
+        ).value =
+            window.pacienteAtual.id;
+
+    }
+
+}
+
+
+/* dietas do paciente */
+function abrirDietasPaciente() {
+
+    if (!window.pacienteAtual) {
+        return;
+    }
+
+    var paciente =
+        window.pacienteAtual;
+
+    document.getElementById(
+        "dietasPacienteNome"
+    ).textContent =
+        paciente.nome ||
+        "Paciente";
+
+    carregarDietasDoPaciente(
+        paciente
+    );
+
+    closeModal(
+        "modalPaciente"
+    );
+
+    openModal(
+        "modalDietasPaciente"
+    );
+
+}
+
+
+/* mostra dietas do paciente */
+function carregarDietasDoPaciente(
+    paciente
+) {
+
+    var lista =
+        document.getElementById(
+            "listaDietasPaciente"
+        );
+
+    lista.innerHTML =
+        "";
+
+    var dietas =
+        window.dietasAtuais ||
+        [];
+
+    var dietasPaciente =
+        dietas.filter(
+            function(dieta) {
+
+                return (
+                    dieta.id_paciente ===
+                    paciente.id
+                );
+
+            }
+        );
+
+    if (!dietasPaciente.length) {
+
+        lista.innerHTML =
+            '<div class="lista-vazia">Nenhuma dieta encontrada para este paciente.</div>';
+
+        return;
+
+    }
+
+    dietasPaciente.forEach(
+        function(dieta) {
+
+            lista.appendChild(
+                criarItemDieta(
+                    dieta
+                )
+            );
+
+        }
+    );
+
+}
+
+
+/* dietas */
+function carregarDietas(
+    dietas
+) {
+
+    window.dietasAtuais =
+        dietas;
+
+    var lista =
+        document.getElementById(
+            "listaDietas"
+        );
+
+    if (!lista) {
+        return;
+    }
+
+    lista.innerHTML =
+        "";
+
+    /* ignora documentos de teste sem dados */
+    var dietasValidas =
+        dietas.filter(
+            function(dieta) {
+
+                return (
+                    dieta.titulo &&
+                    dieta.titulo.trim() !== ""
+                );
+
+            }
+        );
+
+    if (!dietasValidas.length) {
+
+        lista.innerHTML =
+            '<div class="lista-vazia">Nenhuma dieta cadastrada.</div>';
+
+        return;
+
+    }
+
+    dietasValidas.forEach(
+        function(dieta) {
+
+            lista.appendChild(
+                criarItemDieta(
+                    dieta
+                )
+            );
+
+        }
+    );
+
+}
+
+
+/* cria item de dieta */
+function criarItemDieta(
+    dieta
+) {
+
+    var item =
+        document.createElement(
+            "div"
+        );
+
+    item.className =
+        "dieta-item";
+
+    item.style.cursor =
+        "pointer";
+
+    var paciente =
+        (window.pacientesAtuais || []).find(
+            function(itemPaciente) {
+
+                return (
+                    itemPaciente.id ===
+                    dieta.id_paciente
+                );
+
+            }
+        );
+
+    var nomePaciente =
+        paciente
+        ? paciente.nome
+        : (
+            dieta.pacienteNome ||
+            "Paciente não informado"
+        );
+
+    var periodo =
+        "";
+
+    if (
+        dieta.data_inicio &&
+        dieta.data_fim
+    ) {
+
+        periodo =
+            formatarData(
+                dieta.data_inicio
+            ) +
+            " até " +
+            formatarData(
+                dieta.data_fim
+            );
+
+    } else if (
+        dieta.data_inicio
+    ) {
+
+        periodo =
+            "Início: " +
+            formatarData(
+                dieta.data_inicio
+            );
+
+    } else if (
+        dieta.data_fim
+    ) {
+
+        periodo =
+            "Fim: " +
+            formatarData(
+                dieta.data_fim
+            );
+
+    }
+
+    item.innerHTML =
+
+        '<div style="display:flex;align-items:center;gap:16px;width:100%;">' +
+
+            '<div style="flex:1;min-width:0;">' +
+
+                '<div class="dieta-titulo">' +
+
+                    escaparHtml(
+                        dieta.titulo ||
+                        "Dieta"
+                    ) +
+
+                '</div>' +
+
+                '<div class="dieta-info">' +
+
+                    escaparHtml(
+                        nomePaciente
+                    ) +
+
+                '</div>' +
+
+                (
+                    periodo
+
+                    ?
+
+                    '<div class="dieta-info">' +
+                        escaparHtml(
+                            periodo
+                        ) +
+                    '</div>'
+
+                    :
+
+                    ""
+                ) +
+
+            '</div>' +
+
+            '<button class="icon-btn red dieta-botao-apagar" ' +
+                'title="Apagar">' +
+
+                '<i class="ti ti-trash"></i>' +
+
+            '</button>' +
+
+        '</div>';
+
+        var botaoApagar =
+    item.querySelector(
+        ".dieta-botao-apagar"
+    );
+
+botaoApagar.onclick =
+    function(event) {
+
+        event.stopPropagation();
+
+        apagarDieta(
+            dieta
+        );
+
+    };
+
+    item.onclick =
+        function() {
+
+            abrirEdicaoDieta(
+                dieta
+            );
+
+        };
+
+    return item;
+
+}
+
+/* abre edicao da dieta */
+function abrirEdicaoDieta(
+    dieta
+) {
+
+    if (!dieta) {
+        return;
+    }
+
+    window.dietaAtual =
+        dieta;
+
+    var select =
+        document.getElementById(
+            "editarDietaPaciente"
+        );
+
+    if (select) {
+
+        select.innerHTML =
+            '<option value="">Selecione um paciente</option>';
+
+        (window.pacientesAtuais || [])
+            .forEach(
+                function(paciente) {
+
+                    var option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    option.value =
+                        paciente.id;
+
+                    option.textContent =
+                        paciente.nome;
+
+                    select.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        select.value =
+            dieta.id_paciente || "";
+
+    }
+
+    document.getElementById(
+        "editarDietaTitulo"
+    ).value =
+        dieta.titulo ||
+        "";
+
+    document.getElementById(
+        "editarDietaDescricao"
+    ).value =
+        dieta.descricao ||
+        "";
+
+    document.getElementById(
+        "editarDietaDataInicio"
+    ).value =
+        dieta.data_inicio ||
+        "";
+
+    document.getElementById(
+        "editarDietaDataFim"
+    ).value =
+        dieta.data_fim ||
+        "";
+
+    openModal(
+        "modalEditarDieta"
+    );
+
+}
+
+
+/* salva edicao da dieta */
+async function salvarEdicaoDieta() {
+
+    if (!window.dietaAtual) {
+        return;
+    }
+
+    var paciente =
+        document.getElementById(
+            "editarDietaPaciente"
+        ).value;
+
+    var titulo =
+        document.getElementById(
+            "editarDietaTitulo"
+        ).value.trim();
+
+    var descricao =
+        document.getElementById(
+            "editarDietaDescricao"
+        ).value.trim();
+
+    var dataInicio =
+        document.getElementById(
+            "editarDietaDataInicio"
+        ).value;
+
+    var dataFim =
+        document.getElementById(
+            "editarDietaDataFim"
+        ).value;
+
+    if (
+        !paciente ||
+        !titulo ||
+        !dataInicio ||
+        !dataFim
+    ) {
+
+        showToast(
+            "⚠ Preencha paciente, título e as datas.",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    if (
+        dataFim <
+        dataInicio
+    ) {
+
+        showToast(
+            "⚠ A data de fim não pode ser anterior à data de início.",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    var id =
+        window.dietaAtual.id ||
+        window.dietaAtual.id_dieta;
+
+    if (!id) {
+
+        showToast(
+            "⚠ Não foi possível identificar a dieta.",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    try {
+
+        var uid =
+            localStorage.getItem(
+                "uidNutricionista"
+            );
+
+        var resposta =
+            await fetch(
+                "/api/dietas/" +
+                encodeURIComponent(id) +
+                "?uid=" +
+                encodeURIComponent(uid || ""),
+                {
+
+                    method:
+                        "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            id_paciente:
+                                paciente,
+
+                            titulo:
+                                titulo,
+
+                            descricao:
+                                descricao,
+
+                            data_inicio:
+                                dataInicio,
+
+                            data_fim:
+                                dataFim
+
+                        })
+
+                }
+            );
+
+        var resultado =
+            await resposta.json();
+
+        if (!resposta.ok) {
+
+            showToast(
+                resultado.mensagem ||
+                "Não foi possível editar a dieta",
+                "#c0625a"
+            );
+
+            return;
+
+        }
+
+        closeModal(
+            "modalEditarDieta"
+        );
+
+        showToast(
+            "✓ Dieta atualizada",
+            "#2D6A4F"
+        );
+
+        await carregarDashboard();
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao editar dieta:",
+            erro
+        );
+
+        showToast(
+            "Erro ao conectar com o servidor.",
+            "#c0625a"
+        );
+
+    }
+
+}
+
+
+/* apaga dieta */
+async function apagarDieta(
+    dieta
+) {
+
+    if (!dieta) {
+        return;
+    }
+
+    var id =
+        dieta.id ||
+        dieta.id_dieta;
+
+    if (!id) {
+
+        showToast(
+            "⚠ Não foi possível identificar a dieta.",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    if (
+        !confirm(
+            "Deseja apagar esta dieta?"
+        )
+    ) {
+
+        return;
+
+    }
+
+    try {
+
+        var uid =
+            localStorage.getItem(
+                "uidNutricionista"
+            );
+
+        var resposta =
+            await fetch(
+                "/api/dietas/" +
+                encodeURIComponent(id) +
+                "?uid=" +
+                encodeURIComponent(uid || ""),
+                {
+
+                    method:
+                        "DELETE"
+
+                }
+            );
+
+        var resultado =
+            await resposta.json();
+
+        if (!resposta.ok) {
+
+            showToast(
+                resultado.mensagem ||
+                "Não foi possível apagar a dieta",
+                "#c0625a"
+            );
+
+            return;
+
+        }
+
+        showToast(
+            "✓ Dieta apagada",
+            "#2D6A4F"
+        );
+
+        await carregarDashboard();
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao apagar dieta:",
+            erro
+        );
+
+        showToast(
+            "Erro ao conectar com o servidor.",
+            "#c0625a"
+        );
+
+    }
+
+}
+
+/* busca paciente */
+function filtrarPacientes() {
+
+    var campo =
+        document.getElementById(
+            "buscaPaciente"
+        );
+
+    var texto =
+        campo
+        ? campo.value
+            .toLowerCase()
+            .trim()
+        : "";
+
+    document
+        .querySelectorAll(
+            "#listaPacientes .patient-card"
+        )
+        .forEach(
+            function(card) {
+
+                var nome =
+                    card.dataset.nome ||
+                    "";
+
+                card.style.display =
+                    nome.includes(texto)
+                    ? "flex"
+                    : "none";
+
+            }
+        );
+
+}
+
+
+/* consultas */
+function carregarConsultas(
+    consultas
+) {
+
+    var lista =
+        document.getElementById(
+            "listaConsultas"
+        );
+
+    if (!lista) {
+        return;
+    }
+
+    lista.innerHTML =
+        "";
+
+    if (!consultas.length) {
+
+        lista.innerHTML =
+            '<div class="sched-block" style="text-align:center;">Nenhuma consulta cadastrada.</div>';
+
+        return;
+
+    }
+
+    consultas
+        .sort(
+            function(a, b) {
+
+                return new Date(
+                    a.dataehoras || 0
+                ) -
+
+                new Date(
+                    b.dataehoras || 0
+                );
+
+            }
+        )
+        .forEach(
+            function(consulta) {
+
+                var bloco =
+                    document.createElement(
+                        "div"
+                    );
+
+                bloco.className =
+                    "sched-block";
+
+                var idPaciente =
+                    consulta.id_paciente ||
+                    "";
+
+                var paciente =
+                    (window.pacientesAtuais || []).find(
+                        function(item) {
+
+                            return (
+                                item.id ===
+                                idPaciente
+                            );
+
+                        }
+                    );
+
+                var nomePaciente =
+                    paciente
+                    ? paciente.nome
+                    : (
+                        consulta.pacienteNome ||
+                        "Paciente não informado"
+                    );
+
+                var idConsulta =
+                    consulta.id ||
+                    consulta.ID_consulta ||
+                    "";
+
+                bloco.innerHTML =
+
+                    '<div class="appt-row" style="display:flex;align-items:center;gap:16px;">' +
+
+                        '<div class="appt-name" style="flex:1;min-width:0;">' +
+
+                            escaparHtml(
+                                nomePaciente
+                            ) +
+
+                        '</div>' +
+
+                        '<div class="appt-time" style="flex-shrink:0;min-width:145px;text-align:right;white-space:nowrap;margin-right:8px;">' +
+
+                            escaparHtml(
+                                formatarDataHora(
+                                    consulta.dataehoras
+                                )
+                            ) +
+
+                        '</div>' +
+
+                        '<div class="appt-actions" style="flex-shrink:0;width:32px;display:flex;justify-content:center;">' +
+
+                            '<button ' +
+                            'class="icon-btn red" ' +
+                            'type="button" ' +
+                            'data-consulta-id="' +
+                            escaparHtml(
+                                idConsulta
+                            ) +
+                            '" ' +
+                            'onclick="apagarConsulta(this)" ' +
+                            'title="Apagar consulta">' +
+
+                                '<i class="ti ti-trash"></i>' +
+
+                            '</button>' +
+
+                        '</div>' +
+
+                    '</div>';
+
+                lista.appendChild(
+                    bloco
+                );
+
+            }
+        );
+
+}
+
+
+/* feedback */
+function carregarFeedbacks(
+    feedbacks
+) {
+
+    var lista =
+        document.getElementById(
+            "listaFeedbacks"
+        );
+
+    if (!lista) {
+        return;
+    }
+
+    lista.innerHTML =
+        "";
+
+    if (!feedbacks.length) {
+
+        lista.innerHTML =
+            '<div class="feedback-item">' +
+
+                '<div class="fb-comment">' +
+                    'Nenhum feedback' +
+                '</div>' +
+
+            '</div>';
+
+        return;
+
+    }
+
+    feedbacks.forEach(
+        function(feedback) {
+
+            var paciente =
+                (window.pacientesAtuais || []).find(
+                    function(item) {
+
+                        return (
+                            item.id ===
+                            feedback.id_paciente
+                        );
+
+                    }
+                );
+
+            var dieta =
+                (window.dietasAtuais || []).find(
+                    function(item) {
+
+                        return (
+                            item.id ===
+                            feedback.id_dieta
+                        );
+
+                    }
+                );
+
+            var nomePaciente =
+                paciente
+                ? paciente.nome
+                : "Paciente não informado";
+
+            var nomeDieta =
+                dieta
+                ? dieta.titulo
+                : "Dieta não informada";
+
+            var item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "feedback-item";
+
+            item.innerHTML =
+
+                '<div class="fb-header">' +
+
+                    '<div>' +
+
+                        '<div class="fb-product">' +
+
+                            escaparHtml(
+                                nomeDieta
+                            ) +
+
+                        '</div>' +
+
+                        '<div class="fb-patient">' +
+
+                            escaparHtml(
+                                nomePaciente
+                            ) +
+
+                        '</div>' +
+
+                    '</div>' +
+
+                    '<div class="fb-stars">' +
+
+                        gerarEstrelas(
+                            Number(
+                                feedback.nota ||
+                                0
+                            )
+                        ) +
+
+                    '</div>' +
+
+                '</div>' +
+
+                '<div class="fb-comment">' +
+
+                    '"' +
+
+                    escaparHtml(
+                        feedback.comentario ||
+                        "Sem comentário."
+                    ) +
+
+                    '"' +
+
+                '</div>';
+
+            lista.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+/* relatorios */
+function carregarRelatorios(
+    relatorios
+) {
+
+    window.relatoriosAtuais =
+        relatorios;
+
+    var lista =
+        document.getElementById(
+            "listaRelatorios"
+        );
+
+    lista.innerHTML =
+        "";
+
+    if (!relatorios.length) {
+
+        lista.innerHTML =
+            '<div class="report-item" style="justify-content:center;">Nenhum relatório salvo.</div>';
+
+        return;
+
+    }
+
+    relatorios.forEach(
+        function(relatorio) {
+
+            var item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "report-item";
+
+            item.style.cursor =
+                "pointer";
+
+            item.innerHTML =
+
+                '<div class="report-icon">' +
+
+                    '<i class="ti ti-file-text"></i>' +
+
+                '</div>' +
+
+                '<div class="report-info">' +
+
+                    '<div class="report-name">' +
+
+                        escaparHtml(
+                            relatorio.titulo ||
+                            "Relatório"
+                        ) +
+
+                    '</div>' +
+
+                    '<div class="report-date">' +
+
+                        (
+                            relatorio.data
+                            ?
+                            formatarData(
+                                relatorio.data
+                            )
+                            :
+                            "Relatório salvo"
+                        )
+
+            item.onclick =
+                function() {
+
+                    abrirEdicaoRelatorio(
+                        relatorio
+                    );
+
+                };
+
+            lista.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+/* estatisticas */
+function atualizarEstatisticas(
+    resultado
+) {
+
+    var pacientes =
+        resultado.pacientes ||
+        [];
+
+    var consultas =
+        resultado.consultas ||
+        [];
+
+    var pacientesAtivos =
+        pacientes.filter(
+            function(paciente) {
+
+                return paciente.ativo !== false;
+
+            }
+        ).length;
+
+    document.getElementById(
+        "statPacientes"
+    ).textContent =
+        pacientesAtivos;
+
+    /* mostra todas as consultas marcadas */
+    document.getElementById(
+        "statConsultas"
+    ).textContent =
+        consultas.length;
+
+    document.getElementById(
+        "statFeedbacks"
+    ).textContent =
+        (
+            resultado.feedbacks ||
+            []
+        ).length;
+
+    document.getElementById(
+        "statRelatorios"
+    ).textContent =
+        (
+            resultado.relatorios ||
+            []
+        ).length;
+}
+
+
+/* salva paciente */
+async function salvarPaciente() {
+
+    if (!window.pacienteAtual) {
+        return;
+    }
+
+    var nome =
+        document.getElementById(
+            "editarPacienteNome"
+        ).value.trim();
+
+    var nascimento =
+        document.getElementById(
+            "editarPacienteNascimento"
+        ).value;
+
+    var classificacao =
+        document.getElementById(
+            "editarPacienteClassificacao"
+        ).value;
+
+    if (!nome) {
+
+        showToast(
+            "⚠ Informe o nome do paciente.",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    if (!nascimento) {
+
+        showToast(
+            "⚠ Informe a data de nascimento.",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    try {
+
+        var resposta =
+            await fetch(
+                "/api/paciente/" +
+                encodeURIComponent(
+                    window.pacienteAtual.id
+                ),
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        nome:
+                            nome,
+
+                        nascimento:
+                            nascimento,
+
+                        classificacao:
+                            classificacao
+
+                    })
+                }
+            );
+
+        var resultado =
+            await resposta.json();
+
+        if (!resposta.ok) {
+
+            showToast(
+                resultado.mensagem ||
+                "Não foi possível atualizar",
+                "#c0625a"
+            );
+
+            return;
+
+        }
+
+        window.pacienteAtual.nome =
+            nome;
+
+        window.pacienteAtual.nascimento =
+            nascimento;
+
+        window.pacienteAtual.classificacao =
+            classificacao;
+
+        closeModal(
+            "modalEditarPaciente"
+        );
+
+        showToast(
+            "✓ Paciente atualizado",
+            "#2D6A4F"
+        );
+
+        carregarPacientes(
+            window.pacientesAtuais.map(
+                function(paciente) {
+
+                    if (
+                        paciente.id ===
+                        window.pacienteAtual.id
+                    ) {
+
+                        return {
+                            ...paciente,
+                            nome:
+                                nome,
+                            nascimento:
+                                nascimento,
+                            classificacao:
+                                classificacao
+                        };
+
+                    }
+
+                    return paciente;
+
+                }
+            )
+        );
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao atualizar paciente:",
+            erro
+        );
+
+        showToast(
+            "Erro ao conectar com o servidor.",
+            "#c0625a"
+        );
+
+    }
+
+}
+
+
+/* salva consulta */
+async function salvarConsulta() {
+
+    var paciente =
+        document.getElementById(
+            "consultaPaciente"
+        ).value;
+
+    var data =
+        document.getElementById(
+            "consultaData"
+        ).value;
+
+    var horario =
+        document.getElementById(
+            "consultaHorario"
+        ).value;
+
+    if (
+        !paciente ||
+        !data ||
+        !horario
+    ) {
+
+        showToast(
+            "⚠ Preencha paciente, data e horário.",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    var dataehoras =
+        data +
+        "T" +
+        horario;
+
+    try {
+
+        var resposta =
+            await fetch(
+                "/api/consultas",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        id_paciente:
+                            paciente,
+
+                        id_nutricionista:
+                            localStorage.getItem(
+                                "uidNutricionista"
+                            ),
+
+                        dataehoras:
+                            dataehoras
+                    })
+                }
+            );
+
+        var resultado =
+            await resposta.json();
+
+        if (!resposta.ok) {
+
+            showToast(
+                resultado.mensagem ||
+                "Não foi possível agendar",
+                "#c0625a"
+            );
+
+            return;
+
+        }
+
+        closeModal(
+            "modalConsulta"
+        );
+
+        document.getElementById(
+            "consultaData"
+        ).value =
+            "";
+
+        document.getElementById(
+            "consultaHorario"
+        ).value =
+            "";
+
+        showToast(
+            "✓ Consulta agendada",
+            "#2D6A4F"
+        );
+
+        await carregarDashboard();
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao salvar consulta:",
+            erro
+        );
+
+        showToast(
+            "Erro ao conectar com o servidor.",
+            "#c0625a"
+        );
+
+    }
+
+}
+
+
+/* salva dieta */
+async function salvarDieta() {
+
+    var paciente =
+        document.getElementById(
+            "dietaPaciente"
+        ).value;
+
+    var titulo =
+        document.getElementById(
+            "dietaTitulo"
+        ).value.trim();
+
+    var descricao =
+        document.getElementById(
+            "dietaDescricao"
+        ).value.trim();
+
+    var dataInicio =
+        document.getElementById(
+            "dietaDataInicio"
+        ).value;
+
+    var dataFim =
+        document.getElementById(
+            "dietaDataFim"
+        ).value;
+
+    if (
+        !paciente ||
+        !titulo ||
+        !dataInicio ||
+        !dataFim
+    ) {
+
+        showToast(
+            "⚠ Preencha paciente, título e as datas.",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    if (
+        dataFim <
+        dataInicio
+    ) {
+
+        showToast(
+            "⚠ A data de fim não pode ser anterior à data de início.",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    try {
+
+        var resposta =
+            await fetch(
+                "/api/dietas",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        id_paciente:
+                            paciente,
+
+                        titulo:
+                            titulo,
+
+                        descricao:
+                            descricao,
+
+                        data_inicio:
+                            dataInicio,
+
+                        data_fim:
+                            dataFim
+
+                    })
+                }
+            );
+
+        var resultado =
+            await resposta.json();
+
+        if (!resposta.ok) {
+
+            showToast(
+                resultado.mensagem ||
+                "Não foi possível salvar a dieta",
+                "#c0625a"
+            );
+
+            return;
+
+        }
+
+        closeModal(
+            "modalDieta"
+        );
+
+        document.getElementById(
+            "dietaPaciente"
+        ).value =
+            "";
+
+        document.getElementById(
+            "dietaTitulo"
+        ).value =
+            "";
+
+        document.getElementById(
+            "dietaDescricao"
+        ).value =
+            "";
+
+        document.getElementById(
+            "dietaDataInicio"
+        ).value =
+            "";
+
+        document.getElementById(
+            "dietaDataFim"
+        ).value =
+            "";
+
+        showToast(
+            "✓ Dieta salva",
+            "#2D6A4F"
+        );
+
+        await carregarDashboard();
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao salvar dieta:",
+            erro
+        );
+
+        showToast(
+            "Erro ao conectar com o servidor.",
+            "#c0625a"
+        );
+
+    }
+
+}
+
+
+/* salvar relatorio */
+async function salvarConsulta() {
+
+var paciente =
+    document.getElementById(
+        "consultaPaciente"
+    ).value;
+
+var data =
+    document.getElementById(
+        "consultaData"
+    ).value;
+
+var horario =
+    document.getElementById(
+        "consultaHorario"
+    ).value;
+
+if (
+    !paciente ||
+    !data ||
+    !horario
+) {
+
+    showToast(
+        "⚠ Preencha paciente, data e horário.",
+        "#c0625a"
+    );
+
+    return;
+
+}
+
+var dataehoras =
+    data +
+    "T" +
+    horario;
+
+try {
+
+    var resposta =
+        await fetch(
+            "/api/consultas",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    id_paciente:
+                        paciente,
+
+                    id_nutricionista:
+                        localStorage.getItem(
+                            "uidNutricionista"
+                        ),
+
+                    dataehoras:
+                        dataehoras
+
+                })
+            }
+        );
+
+    var resultado =
+        await resposta.json();
+
+    if (!resposta.ok) {
+
+        showToast(
+            resultado.mensagem ||
+            "Não foi possível agendar",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    closeModal(
+        "modalConsulta"
+    );
+
+    document.getElementById(
+        "consultaData"
+    ).value = "";
+
+    document.getElementById(
+        "consultaHorario"
+    ).value = "";
+
+    showToast(
+        "✓ Consulta agendada",
+        "#2D6A4F"
+    );
+
+    await carregarDashboard();
+
+} catch (erro) {
+
+    console.error(
+        "Erro ao salvar consulta:",
+        erro
+    );
+
+    showToast(
+        "Erro ao conectar com o servidor.",
+        "#c0625a"
+    );
+
+}
+
+}
+
+/* editar relatorio */
+function abrirEdicaoRelatorio(
+    relatorio
+) {
+
+    if (!relatorio) {
+        return;
+    }
+
+    window.relatorioAtual =
+        relatorio;
+
+    document.getElementById(
+        "editarRelatorioTitulo"
+    ).value =
+        relatorio.titulo ||
+        "";
+
+    var paciente =
+        (window.pacientesAtuais || []).find(
+            function(item) {
+
+                return (
+                    item.id ===
+                    relatorio.id_paciente
+                );
+
+            }
+        );
+
+    document.getElementById(
+        "editarRelatorioPaciente"
+    ).value =
+        paciente
+        ? paciente.nome
+        : "Paciente não informado";
+
+    document.getElementById(
+        "editarRelatorioData"
+    ).value =
+        relatorio.data
+        ?
+        formatarData(
+            relatorio.data
+        )
+        :
+        "";
+
+    document.getElementById(
+        "editarRelatorioDescricao"
+        ).value =
+            relatorio.descricao ||
+        "";
+
+    openModal(
+        "modalEditarRelatorio"
+    );
+
+}
+
+
+/* salva as alteracoes do relatorio */
+async function salvarEdicaoRelatorio() {
+
+if (!window.relatorioAtual) {
+    return;
+}
+
+var titulo =
+    document.getElementById(
+        "editarRelatorioTitulo"
+    ).value.trim();
+
+var descricao =
+    document.getElementById(
+        "editarRelatorioDescricao"
+    ).value.trim();
+
+if (
+    !titulo ||
+    !descricao
+) {
+
+    showToast(
+        "⚠ Preencha todos os campos.",
+        "#c0625a"
+    );
+
+    return;
+
+}
+
+var id =
+    window.relatorioAtual.id ||
+    window.relatorioAtual.id_relatorio;
+
+var idPaciente =
+    window.relatorioAtual.id_paciente;
+
+if (!id || !idPaciente) {
+
+    showToast(
+        "⚠ Não foi possível identificar o relatório.",
+        "#c0625a"
+    );
+
+    return;
+
+}
+
+try {
+
+    var resposta =
+        await fetch(
+            "/api/relatorios/" +
+            encodeURIComponent(id),
+            {
+
+                method:
+                    "PUT",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify({
+
+                        titulo:
+                            titulo,
+
+                        id_paciente:
+                            idPaciente,
+
+                        descricao:
+                            descricao
+
+                    })
+
+            }
+        );
+
+    var resultado =
+        await resposta.json();
+
+    if (!resposta.ok) {
+
+        showToast(
+            resultado.mensagem ||
+            "Não foi possível editar o relatório",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    closeModal(
+        "modalEditarRelatorio"
+    );
+
+    showToast(
+        "✓ Relatório atualizado",
+        "#2D6A4F"
+    );
+
+    await carregarDashboard();
+
+} catch (erro) {
+
+    console.error(
+        "Erro ao editar relatório:",
+        erro
+    );
+
+    showToast(
+        "Erro ao conectar com o servidor.",
+        "#c0625a"
+    );
+
+}
+
+}
+
+
+/* apaga relatorio */
+async function apagarRelatorioAtual() {
+
+if (!window.relatorioAtual) {
+
+    showToast(
+        "⚠ Não foi possível identificar o relatório.",
+        "#c0625a"
+    );
+
+    return;
+
+}
+
+var id =
+    window.relatorioAtual.id ||
+    window.relatorioAtual.id_relatorio;
+
+if (!id) {
+
+    showToast(
+        "⚠ Não foi possível identificar o relatório.",
+        "#c0625a"
+    );
+
+    return;
+
+}
+
+if (
+    !confirm(
+        "Deseja apagar este relatório?"
+    )
+) {
+    return;
+}
+
+try {
+
+    var resposta =
+        await fetch(
+            "/api/relatorios/" +
+            encodeURIComponent(id),
+            {
+                method: "DELETE"
+            }
+        );
+
+    var resultado =
+        await resposta.json();
+
+    if (!resposta.ok) {
+
+        showToast(
+            resultado.mensagem ||
+            "Não foi possível apagar o relatório",
+            "#c0625a"
+        );
+
+        return;
+
+    }
+
+    closeModal(
+        "modalEditarRelatorio"
+    );
+
+    showToast(
+        "✓ Relatório apagado",
+        "#2D6A4F"
+    );
+
+    await carregarDashboard();
+
+} catch (erro) {
+
+    console.error(
+        "Erro ao apagar relatório:",
+        erro
+    );
+
+    showToast(
+        "Erro ao conectar com o servidor.",
+        "#c0625a"
+    );
+
+}
+
+}
+
+/* apaga consulta */
+async function apagarConsulta(btn) {
+
+    var idConsulta =
+        btn.dataset.consultaId;
+
+    if (!idConsulta) {
+
+        showToast(
+            "Não foi possível identificar a consulta.",
+            "#C62828"
+        );
+
+        return;
+
+    }
+
+    var confirmar =
+        window.confirm(
+            "Deseja apagar esta consulta?"
+        );
+
+    if (!confirmar) {
+        return;
+    }
+
+    var uidNutricionista =
+        localStorage.getItem(
+            "uidNutricionista"
+        );
+
+    if (!uidNutricionista) {
+
+        showToast(
+            "Nutricionista não identificado.",
+            "#C62828"
+        );
+
+        return;
+
+    }
+
+    try {
+
+        var resposta =
+            await fetch(
+                "/api/consultas/" +
+                encodeURIComponent(
+                    idConsulta
+                ) +
+                "?uid=" +
+                encodeURIComponent(
+                    uidNutricionista
+                ),
+                {
+                    method: "DELETE"
+                }
+            );
+
+        var resultado;
+
+        try {
+
+            resultado =
+                await resposta.json();
+
+        } catch (erro) {
+
+            resultado = {
+
+                mensagem:
+                    "O servidor não retornou uma resposta válida."
+
+            };
+
+        }
+
+        if (!resposta.ok) {
+
+            showToast(
+                resultado.mensagem ||
+                "Não foi possível apagar a consulta",
+                "#C62828"
+            );
+
+            return;
+
+        }
+
+        showToast(
+            "✓ Consulta apagada",
+            "#2D6A4F"
+        );
+
+        await carregarDashboard();
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao apagar consulta:",
+            erro
+        );
+
+        showToast(
+            "Erro ao apagar a consulta.",
+            "#C62828"
+        );
+
+    }
+
+}
+
+
+/* iniciais */
+function gerarIniciais(
+    nome
+) {
+
+    if (!nome) {
+        return "P";
+    }
+
+    var partes =
+        nome
+            .trim()
+            .split(" ")
+            .filter(Boolean);
+
+    if (
+        partes.length === 1
+    ) {
+
+        return partes[0]
+            .substring(0, 2)
+            .toUpperCase();
+
+    }
+
+    return (
+        partes[0][0] +
+        partes[
+            partes.length - 1
+        ][0]
+    ).toUpperCase();
+}
+
+
+/* estrelas */
+function gerarEstrelas(
+    nota
+) {
+
+    var resultado =
+        "";
+
+    for (
+        var i = 1;
+        i <= 5;
+        i++
+    ) {
+
+        resultado +=
+            i <= nota
+            ? "★"
+            : "☆";
+    }
+    return resultado;
+}
+
+
+/* data */
+function formatarData(
+    data
+) {
+
+    if (!data) {
+        return "";
+    }
+
+    var dataObjeto =
+        new Date(data);
+
+    if (
+        isNaN(dataObjeto)
+    ) {
+        return data;
+    }
+
+    var dia =
+        String(
+            dataObjeto.getUTCDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+    var mes =
+        String(
+            dataObjeto.getUTCMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+    var ano =
+        dataObjeto.getUTCFullYear();
+
+    return (
+        dia +
+        "/" +
+        mes +
+        "/" +
+        ano
+    );
+}
+
+
+/* data para input */
+function formatarDataInput(
+    data
+) {
+
+    if (!data) {
+        return "";
+    }
+
+    var dataObjeto =
+        new Date(data);
+
+    if (
+        isNaN(dataObjeto)
+    ) {
+        return "";
+    }
+
+    var ano =
+        dataObjeto.getUTCFullYear();
+
+    var mes =
+        String(
+            dataObjeto.getUTCMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+    var dia =
+        String(
+            dataObjeto.getUTCDate()
+        ).padStart(
+            2,
+            "0"
+        );
+
+    return (
+        ano +
+        "-" +
+        mes +
+        "-" +
+        dia
+    );
+}
+
+
+/* data e hora */
+function formatarDataHora(
+    data
+) {
+
+    if (!data) {
+        return "";
+    }
+
+    var dataObjeto =
+        new Date(data);
+
+    if (
+        isNaN(dataObjeto)
+    ) {
+
+        return data;
+    }
+
+    return dataObjeto.toLocaleString(
+        "pt-BR",
+        {
+            dateStyle:
+                "short",
+
+            timeStyle:
+                "short"
+        }
+    );
+}
+
+
+/* protege textos */
+function escaparHtml(
+    texto
+) {
+    var div =
+        document.createElement(
+            "div"
+        );
+
+    div.textContent =
+        texto == null
+        ? ""
+        : String(texto);
+
+    return div.innerHTML;
+}
+
+
+/* fecha modal clicando fora */
+document.addEventListener(
+    "click",
+    function(evento) {
+        if (
+            evento.target.classList.contains(
+                "overlay"
+            )
+        ) {
+            evento.target.classList.remove(
+                "open"
+            );
+        }
+    }
+);
+
+
+/* inicia */
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+        carregarDashboard();
+        showTab(
+            "tabInicio"
+        );
+    }
+);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- ajusta a pagina pra telas menores -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiri — Criar conta</title>
+
+    <!-- carrega as fontes usadas na pagina -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Montserrat:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- carrega os icones usados nos campos -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* define as cores usadas na pagina */
+        :root{
+            --cream:#f9e9d2;
+            --cream-soft:#fdf3e6;
+            --dark:#282828;
+            --dark-soft:#3a3a3a;
+            --green:#18482d;
+            --green-deep:#103420;
+            --green-mid:#456854;
+            --green-light:#7b947a;
+            --error:#c0625a;
+            --warning:#d4b27a;
+        }
+
+        /* reseta os espacamentos padrao dos elementos */
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        /* organiza o conteudo principal no centro da tela */
+        body{
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:var(--cream);
+            font-family:'Montserrat',sans-serif;
+            color:var(--dark);
+            padding:40px 20px;
+        }
+
+        /* define o tamanho e a organizacao do cartao */
+        .card{
+            width:100%;
+            max-width:380px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+        }
+
+        /* define o tamanho e o espacamento da logo */
+        .logo{
+            width:190px;
+            height:auto;
+            display:block;
+            margin:0 auto 20px;
+        }
+
+        /* estiliza o texto abaixo da logo */
+        .tagline{
+            font-family:'Caveat',cursive;
+            font-weight:600;
+            font-size:1.55rem;
+            color:var(--green-mid);
+            text-align:center;
+            margin-bottom:30px;
+            letter-spacing:.01em;
+        }
+
+        /* estiliza o titulo do cadastro */
+        .cadastro-titulo{
+            color:var(--green);
+            font-size:1.15rem;
+            font-weight:800;
+            letter-spacing:.08em;
+            text-transform:uppercase;
+            text-align:center;
+            margin-bottom:22px;
+        }
+
+        /* organiza os campos do formulario */
+        form{
+            width:100%;
+            display:flex;
+            flex-direction:column;
+            gap:12px;
+        }
+
+        /* define o tamanho de cada campo */
+        .field{
+            width:100%;
+        }
+
+        /* esconde o label visualmente, mas mantem ele no html */
+        .field label{
+            position:absolute;
+            width:1px;
+            height:1px;
+            overflow:hidden;
+            clip:rect(0 0 0 0);
+            white-space:nowrap;
+        }
+
+        /* monta a caixa escura usada nos campos */
+        .field-wrap{
+            position:relative;
+            display:flex;
+            align-items:center;
+            gap:12px;
+            background:var(--dark);
+            border-radius:8px;
+            min-height:52px;
+            padding:0 16px;
+            border:1.5px solid transparent;
+            transition:border-color .2s ease;
+        }
+
+        /* destaca o campo qdo ele esta selecionado */
+        .field-wrap:focus-within{
+            border-color:var(--green-mid);
+        }
+
+        /* estiliza os icones dos campos */
+        .field-wrap i.field-icon{
+            color:var(--cream);
+            font-size:.95rem;
+            width:16px;
+            text-align:center;
+            flex-shrink:0;
+        }
+
+        /* estiliza os campos de texto */
+        .field-wrap input{
+            flex:1;
+            width:100%;
+            min-width:0;
+            background:transparent;
+            border:none;
+            outline:none;
+            color:#ffffff;
+            font-family:'Montserrat',sans-serif;
+            font-weight:700;
+            font-size:.72rem;
+            letter-spacing:.08em;
+        }
+
+        /* define a cor dos textos de exemplo dos campos */
+        .field-wrap input::placeholder{
+            color:#d9d4cb;
+            opacity:.65;
+        }
+
+        /* aumenta o espacamento das letras da senha */
+        .field-wrap input[type="password"]{
+            letter-spacing:.12em;
+        }
+
+        /* estiliza o botao de mostrar a senha */
+        .toggle-pass{
+            background:none;
+            border:none;
+            color:var(--cream);
+            opacity:.75;
+            font-size:.9rem;
+            cursor:pointer;
+            padding:6px;
+            flex-shrink:0;
+            transition:opacity .15s ease;
+        }
+
+        /* deixa o icone mais visivel qdo passa o mouse */
+        .toggle-pass:hover{
+            opacity:1;
+        }
+
+        /* cria a barra q mostra a forca da senha */
+        .password-strength{
+            background:#dfe8df;
+            border-radius:2px;
+            height:4px;
+            margin-top:5px;
+            overflow:hidden;
+        }
+
+        /* define a parte preenchida da barra de forca */
+        #pw-bar{
+            height:4px;
+            border-radius:2px;
+            width:0;
+            transition:
+                width .3s,
+                background .3s;
+        }
+
+        /* esconde as mensagens de erro por padrao */
+        .error-msg{
+            display:none;
+            color:var(--error);
+            margin-top:4px;
+            font-size:.68rem;
+            font-weight:600;
+        }
+
+        /* mostra a mensagem qdo o erro e ativado */
+        .error-msg.show{
+            display:block;
+        }
+
+        /* destaca o campo q possui erro */
+        .input-error{
+            border-color:var(--error) !important;
+        }
+
+        /* estiliza o botao de criar conta */
+        .btn-primary{
+            margin-top:8px;
+            width:100%;
+            height:54px;
+            border:none;
+            border-radius:10px;
+            background:var(--green);
+            color:var(--cream-soft);
+            font-family:'Montserrat',sans-serif;
+            font-weight:800;
+            font-size:.95rem;
+            letter-spacing:.16em;
+            text-transform:uppercase;
+            cursor:pointer;
+            transition:
+                background .2s ease,
+                transform .12s ease,
+                box-shadow .2s ease;
+        }
+
+        /* muda o visual do botao qdo passa o mouse */
+        .btn-primary:hover{
+            background:var(--green-deep);
+            transform:translateY(-1px);
+            box-shadow:
+                0 6px 16px -8px
+                rgba(16,52,32,.6);
+        }
+
+        /* tira o movimento qdo o botao e clicado */
+        .btn-primary:active{
+            transform:translateY(0);
+        }
+
+        /* organiza a divisao antes do link de login */
+        .divider{
+            width:100%;
+            display:flex;
+            align-items:center;
+            gap:12px;
+            margin:22px 0 16px;
+        }
+
+        /* cria as linhas da divisao */
+        .divider span{
+            flex:1;
+            height:1px;
+            background:rgba(69,104,84,.28);
+        }
+
+        /* estiliza o texto de qm ja possui conta */
+        .auth-link{
+            color:var(--green-mid);
+            font-size:.7rem;
+            letter-spacing:.04em;
+            text-align:center;
+        }
+
+        /* estiliza o link pra entrar */
+        .auth-link a{
+            color:var(--green);
+            font-weight:800;
+            text-decoration:none;
+        }
+
+
+        /* muda a cor do link qdo passa o mouse */
+        .auth-link a:hover{
+            color:var(--green-deep);
+        }
+
+        /* cria a mensagem q aparece temporariamente na tela */
+        .toast{
+            position:fixed;
+            top:20px;
+            left:50%;
+            transform:translateX(-50%) translateY(-20px);
+            opacity:0;
+            pointer-events:none;
+            padding:12px 18px;
+            border-radius:8px;
+            color:#ffffff;
+            font-size:.75rem;
+            font-weight:700;
+            text-align:center;
+            z-index:9999;
+            transition:
+                opacity .2s ease,
+                transform .2s ease;
+            max-width:calc(100% - 40px);
+        }
+
+        /* mostra a mensagem qdo a classe show e adicionada */
+        .toast.show{
+            opacity:1;
+            transform:translateX(-50%) translateY(0);
+        }
+
+        /* mostra um contorno qdo um elemento recebe foco */
+        :focus-visible{
+            outline:2px solid var(--green-mid);
+            outline-offset:2px;
+        }
+
+        /* ajusta a pagina pra telas bem pequenas */
+        @media (max-width:340px){
+            .logo{
+                width:160px;
+            }
+
+            .tagline{
+                font-size:1.35rem;
+            }
+
+            body{
+                padding:30px 16px;
+            }
+        }
+
+        /* desativa as animacoes pra qm prefere menos movimento */
+        @media (prefers-reduced-motion:reduce){
+            .btn-primary,
+            .field-wrap,
+            .toast,
+            #pw-bar{
+                transition:none;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- conteudo principal da tela de cadastro -->
+    <main class="card">
+
+        <!-- mostra a logo do quiri -->
+        <img
+            class="logo"
+            src="../imagens/logoquiri.png"
+            alt="logo quiri">
+
+        <!-- mostra o titulo da tela -->
+        <h2 class="cadastro-titulo">
+            Cadastro Nutricionista
+        </h2>
+
+        <!-- recebe as mensagens rapidas do sistema -->
+        <div class="toast"
+             id="toast">
+        </div>
+
+        <!-- formulario usado pra criar conta -->
+        <form
+            id="formCadastro"
+            autocomplete="on"
+            onsubmit="event.preventDefault(); efetuarCadastro();">
+
+            <!-- campo pra o nome do nutricionista -->
+            <div class="field">
+
+                <label for="cad-nome">
+                    Nome completo
+                </label>
+
+                <div class="field-wrap">
+
+                    <i class="field-icon fa-solid fa-user"
+                       aria-hidden="true">
+                    </i>
+
+                    <input
+                        type="text"
+                        id="cad-nome"
+                        placeholder="NOME COMPLETO"
+                        maxlength="100"
+                        autocomplete="name">
+                </div>
+            </div>
+
+            <!-- campo pra o CPF -->
+            <div class="field">
+
+                <label for="cad-cpf">
+                    CPF
+                </label>
+
+                <div class="field-wrap">
+
+                    <i class="field-icon fa-solid fa-id-card"
+                       aria-hidden="true">
+                    </i>
+
+                    <input
+                        type="text"
+                        id="cad-cpf"
+                        placeholder="CPF"
+                        maxlength="14"
+                        autocomplete="off">
+
+                </div>
+            </div>
+
+            <!-- campo pra o CRN do nutricionista -->
+            <div class="field">
+
+                <label for="cad-crn">
+                    CRN
+                </label>
+
+                <div class="field-wrap">
+
+                    <i class="field-icon fa-solid fa-certificate"
+                       aria-hidden="true">
+                    </i>
+
+                    <input
+                        type="text"
+                        id="cad-crn"
+                        placeholder="CRN"
+                        maxlength="30"
+                        autocomplete="off">
+
+                </div>
+            </div>
+
+            <!-- campo pra o e-mail -->
+            <div class="field">
+
+                <label for="cad-email">
+                    E-mail profissional
+                </label>
+
+                <div class="field-wrap">
+
+                    <i class="field-icon fa-solid fa-envelope"
+                       aria-hidden="true">
+                    </i>
+
+                    <input
+                        type="email"
+                        id="cad-email"
+                        placeholder="E-MAIL PROFISSIONAL"
+                        maxlength="255"
+                        autocomplete="email">
+
+                </div>
+            </div>
+
+            <!-- campo pra o telefone -->
+            <div class="field">
+
+                <label for="cad-tel">
+                    Telefone
+                </label>
+
+                <div class="field-wrap">
+
+                    <i class="field-icon fa-solid fa-phone"
+                       aria-hidden="true">
+                    </i>
+
+                    <input
+                        type="tel"
+                        id="cad-tel"
+                        placeholder="TELEFONE"
+                        maxlength="15"
+                        autocomplete="tel">
+                </div>
+            </div>
+
+            <!-- campo pra criar a senha -->
+            <div class="field">
+
+                <label for="cad-senha">
+                    Senha
+                </label>
+
+                <div class="field-wrap">
+
+                    <i class="field-icon fa-solid fa-lock"
+                       aria-hidden="true">
+                    </i>
+
+                    <input
+                        type="password"
+                        id="cad-senha"
+                        placeholder="MÍNIMO 8 CARACTERES"
+                        minlength="8"
+                        autocomplete="new-password"
+                        oninput="checkPwStrength(this.value)">
+
+                    <!-- permite mostrar ou esconder a senha -->
+                    <button
+                        type="button"
+                        class="toggle-pass"
+                        id="togglePass1"
+                        aria-label="Mostrar senha">
+
+                        <i class="fa-solid fa-eye"
+                           aria-hidden="true">
+                        </i>
+                    </button>
+                </div>
+
+                <!-- mostra visualmente a forca da senha -->
+                <div class="password-strength">
+                    <div id="pw-bar"></div>
+                </div>
+
+            </div>
+
+            <!-- campo pra confirmar a senha -->
+            <div class="field">
+                <label for="cad-senha2">
+                    Confirmar senha
+                </label>
+
+                <div
+                    class="field-wrap"
+                    id="senha2-wrap">
+
+                    <i class="field-icon fa-solid fa-lock"
+                       aria-hidden="true">
+                    </i>
+
+                    <input
+                        type="password"
+                        id="cad-senha2"
+                        placeholder="REPITA A SENHA"
+                        minlength="8"
+                        autocomplete="new-password">
+
+                    <!-- permite mostrar ou esconder a confirmacao da senha -->
+                    <button
+                        type="button"
+                        class="toggle-pass"
+                        id="togglePass2"
+                        aria-label="Mostrar senha">
+
+                        <i class="fa-solid fa-eye"
+                           aria-hidden="true">
+                        </i>
+                    </button>
+                </div>
+
+                <!-- mostra o erro qdo as senhas forem diferentes -->
+                <div
+                    class="error-msg"
+                    id="err-senha2">
+                    As senhas não coincidem.
+                </div>
+            </div>
+
+            <!-- envia os dados do cadastro -->
+            <button
+                type="submit"
+                class="btn-primary">
+                Criar conta
+            </button>
+        </form>
+
+        <!-- separa o formulario do link de login -->
+        <div class="divider">
+            <span></span>
+        </div>
+
+        <!-- leva o usuario pra tela de login -->
+        <div class="auth-link">
+            Já tem conta?
+            <a href="login.html">
+                Entrar
+            </a>
+        </div>
+    </main>
+    <script>
+
+        // mostra uma mensagem rapida na tela
+        function showToast(msg, color) {
+            var t =
+                document.getElementById('toast');
+
+            t.style.background =
+                color || '#2D6A4F';
+
+            t.textContent =
+                msg;
+
+            t.classList.add('show');
+
+            setTimeout(function() {
+                t.classList.remove('show');
+            }, 3000);
+        }
+
+        // mostra ou esconde a senha
+        function configurarOlho(botaoId, campoId) {
+            var botao =
+                document.getElementById(botaoId);
+            var campo =
+                document.getElementById(campoId);
+            botao.addEventListener(
+                'click',
+
+                function() {
+                    var escondida =
+                        campo.type === 'password';
+                        
+                    campo.type =
+                        escondida
+                            ? 'text'
+                            : 'password';
+
+                    botao.setAttribute(
+                        'aria-label',
+                        escondida
+                            ? 'Ocultar senha'
+                            : 'Mostrar senha'
+                    );
+                    botao.innerHTML =
+                        escondida
+                            ? '<i class="fa-solid fa-eye-slash" aria-hidden="true"></i>'
+                            : '<i class="fa-solid fa-eye" aria-hidden="true"></i>';
+                }
+            );
+        }
+
+        // configura o botao da primeira senha
+        configurarOlho(
+            'togglePass1',
+            'cad-senha'
+        );
+
+        // configura o botao da confirmacao da senha
+        configurarOlho(
+            'togglePass2',
+            'cad-senha2'
+        );
+
+        // verifica a forca da senha
+        function checkPwStrength(v) {
+            var bar =
+                document.getElementById('pw-bar');
+
+            var len =
+                v.length;
+
+            var pct =
+                Math.min(
+                    len / 12 * 100,
+                    100
+                );
+
+            var color =
+                len < 6
+                    ? '#c0625a'
+                    : len < 10
+                        ? '#d4b27a'
+                        : '#2D6A4F';
+
+            bar.style.width =
+                pct + '%';
+            bar.style.background =
+                color;
+        }
+
+        // verifica os dados e envia o cadastro pra o back
+        async function efetuarCadastro() {
+            var nome =
+                document.getElementById(
+                    'cad-nome'
+                ).value.trim();
+            var cpf =
+                document.getElementById(
+                    'cad-cpf'
+                ).value.trim();
+            var crn =
+                document.getElementById(
+                    'cad-crn'
+                ).value.trim();
+            var email =
+                document.getElementById(
+                    'cad-email'
+                ).value.trim();
+            var telefone =
+                document.getElementById(
+                    'cad-tel'
+                ).value.trim();
+            var s1 =
+                document.getElementById(
+                    'cad-senha'
+                ).value;
+            var s2 =
+                document.getElementById(
+                    'cad-senha2'
+                ).value;
+            var err =
+                document.getElementById(
+                    'err-senha2'
+                );
+
+            // verifica se os campos obrigatorios foram preenchidos
+            if (
+                !nome ||
+                !cpf ||
+                !crn ||
+                !email ||
+                !telefone ||
+                !s1
+            ) {
+                showToast(
+                    '⚠ Preencha todos os campos.',
+                    '#c0625a'
+                );
+                return;
+            }
+
+            // verifica o tamanho da senha
+            if (s1.length < 8) {
+                showToast(
+                    '⚠ A senha deve ter no mínimo 8 caracteres.',
+                    '#c0625a'
+                );
+                return;
+            }
+
+            // verifica se o cpf tem 11 numeros
+            var cpfNumeros =
+                cpf.replace(/\D/g, '');
+            if (cpfNumeros.length !== 11) {
+
+                showToast(
+                    '⚠ Digite um CPF válido.',
+                    '#c0625a'
+                );
+                return;
+            }
+
+            // verifica se o telefone tem entre 10 e 11 numeros
+            var telefoneNumeros =
+                telefone.replace(/\D/g, '');
+
+            if (
+                telefoneNumeros.length < 10 ||
+                telefoneNumeros.length > 11
+            ) {
+
+                showToast(
+                    '⚠ Digite um telefone válido.',
+                    '#c0625a'
+                );
+                return;
+            }
+
+            // verifica se as senhas sao iguais
+            if (s1 !== s2) {
+                err.classList.add('show');
+                document
+                    .getElementById('senha2-wrap')
+                    .classList.add('input-error');
+                return;
+            }
+
+            // esconde o erro das senhas
+            err.classList.remove('show');
+
+            document
+                .getElementById('senha2-wrap')
+                .classList.remove('input-error');
+
+            // organiza os dados q vao ser enviados pro back
+            var dados = {
+                nome: nome,
+                cpf: cpf,
+                crn: crn,
+                email: email,
+                telefone: telefone,
+                senha: s1
+            };
+            try {
+
+                // envia os dados pro back
+                var resposta =
+                    await fetch(
+                        '/api/nutricionista/cadastro',
+                        {
+                            method:'POST',
+
+                            headers:{
+                                'Content-Type':
+                                    'application/json'
+                            },
+
+                            body:
+                                JSON.stringify(dados)
+                        }
+                    );
+
+                // recebe a resposta do servidor
+                var resultado =
+                    await resposta.json();
+
+                // verifica se o cadastro deu certo
+                if (resposta.ok) {
+
+                    // vai pra tela de cadastro concluido
+                    setTimeout(
+                        function() {
+
+                            window.location.href =
+                                'auth-pendente.html?email='
+                                +
+                                encodeURIComponent(
+                                    email
+                                );
+                        },
+                        1000
+                    );
+
+                } else {
+
+                    // mostra o erro retornado pelo servidor
+                    showToast(
+                        resultado.mensagem ||
+                        'Não foi possível realizar o cadastro.',
+                        '#c0625a'
+                    );
+                }
+
+            } catch (erro) {
+
+                // mostra erro de conexao
+                console.error(
+                    'Erro ao cadastrar nutricionista:',
+                    erro
+                );
+
+                showToast(
+                    'Erro ao conectar com o servidor.',
+                    '#c0625a'
+                );
+            }
+        }
+
+    </script>
+</body>
+</html>

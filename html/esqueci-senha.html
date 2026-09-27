@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- ajusta a pagina pra telas menores -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiri — Redefinir senha</title>
+
+    <!-- fontes usadas na pagina -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Montserrat:wght@500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- biblioteca de icnes -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+        /* cores usadas na pagina */
+        :root {
+            --cream: #f9e9d2;
+            --cream-soft: #fdf3e6;
+            --dark: #282828;
+            --dark-soft: #3a3a3a;
+            --green: #18482d;
+            --green-deep: #103420;
+            --green-mid: #456854;
+            --green-light: #7b947a;
+        }
+
+        /* reseta os espacamentos padrao */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* estilo geral da pagina */
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--cream);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark);
+            padding: 40px 20px;
+        }
+
+        /* bloco principal da pagina */
+        .card {
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* logo */
+        .logo {
+            width: 190px;
+            height: auto;
+            display: block;
+            margin: 0 auto 25px;
+        }
+
+        /* frase abaixo da logo */
+        .tagline {
+            font-family: 'Caveat', cursive;
+            font-weight: 600;
+            font-size: 1.55rem;
+            color: var(--green-mid);
+            text-align: center;
+            margin-bottom: 34px;
+            letter-spacing: .01em;
+        }
+
+        /* titulo da pagina */
+        .title {
+            width: 100%;
+            text-align: center;
+            color: var(--green);
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        /* texto de explicacao */
+        .description {
+            width: 100%;
+            text-align: center;
+            color: var(--green-mid);
+            font-size: 0.94rem;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        /* formulario */
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* esconde o label sem tirar ele da acessibilidade */
+        .field label {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            white-space: nowrap;
+        }
+
+        /* caixa do campo */
+        .field-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--dark);
+            border-radius: 8px;
+            height: 52px;
+            padding: 0 16px;
+            border: 1.5px solid transparent;
+            transition: border-color .2s ease,
+                        transform .12s ease;
+        }
+
+        /* destaca o campo qdo ele esta selecionado */
+        .field-wrap:focus-within {
+            border-color: var(--green-mid);
+        }
+
+        /* icone do campo */
+        .field-wrap i.field-icon {
+            color: var(--cream);
+            font-size: .95rem;
+            width: 16px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* campo de entrada */
+        .field-wrap input {
+            flex: 1;
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: .74rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        /* texto q aparece antes de digitar */
+        .field-wrap input::placeholder {
+            color: #d9d4cb;
+            opacity: .65;
+        }
+
+        /* mensagem de erro */
+        .error-message {
+            display: none;
+            color: #c0625a;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        /* mostra a mensagem de erro */
+        .error-message.show {
+            display: block;
+        }
+
+        /* destaca o campo com erro */
+        .input-error {
+            border: 1px solid #c0625a !important;
+        }
+
+        /* botao principal */
+        .btn-primary {
+            margin-top: 10px;
+            height: 54px;
+            border: none;
+            border-radius: 10px;
+            background: var(--green);
+            color: var(--cream-soft);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: .95rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background .2s ease,
+                        transform .12s ease,
+                        box-shadow .2s ease;
+        }
+
+        /* efeito do botao qdo passa o mouse */
+        .btn-primary:hover {
+            background: var(--green-deep);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px -8px
+                      rgba(16,52,32,.6);
+        }
+
+        /* efeito do botao qdo clica */
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* link pra voltar pro login */
+        .back-login {
+            display: table;
+            margin: 22px auto 0;
+            color: var(--green-mid);
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            font-size: .65rem;
+            transition: color .15s ease;
+        }
+
+        /* muda a cor do link qdo passa o mouse */
+        .back-login:hover {
+            color: var(--green);
+        }
+
+        /* ajustes pra telas menores */
+        @media (max-width: 340px) {
+            .logo {
+                width: 160px;
+            }
+
+            .tagline {
+                font-size: 1.35rem;
+            }
+        }
+
+</style>
+</head>
+
+<body>
+
+    <!-- conteudo principal da pagina -->
+    <main class="card">
+        <img class="logo"
+             src="/imagens/logoquiri.png"
+             alt="logo quiri">
+
+        <!-- titulo -->
+        <h1 class="title">
+            Redefinir senha
+        </h1>
+
+        <!-- explicacao do q fazer -->
+        <p class="description">
+            Digite seu e-mail e enviaremos um link para redefinir sua senha.
+        </p>
+
+        <!-- formulari de redefinicao -->
+        <form id="formRedefinirSenha"
+              autocomplete="on">
+
+            <div class="field">
+                <label for="email">
+                    E-mail
+                </label>
+
+                <!-- campo do email -->
+                <div class="field-wrap">
+                    <i class="field-icon fa-solid fa-envelope"
+                       aria-hidden="true">
+                    </i>
+
+                    <input id="email"
+                           name="email"
+                           type="email"
+                           placeholder="E-MAIL"
+                           autocomplete="email"
+                           required>
+                </div>
+
+                <!-- mensagem de erro do email -->
+                <p id="err-email"
+                   class="error-message">
+                    Digite um e-mail válido.
+                </p>
+            </div>
+
+            <!-- envia o pedido de redefinicao -->
+            <button type="submit"
+                    class="btn-primary">
+                Enviar link
+            </button>
+        </form>
+
+        <!-- volta pra pagina de login -->
+        <a class="back-login"
+           href="login.html">
+            Voltar para o login
+        </a>
+    </main>
+
+    <!-- carrega o js da redefinicao de senha -->
+    <script type="module" src="../js/esqueci-senha.js"></script>
+
+</body>
+</html>

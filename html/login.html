@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+
+<!-- ajusta a pagina pra telas menores -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiri — Entrar</title>
+
+<!-- fontes usadas na pagina -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- biblioteca de icones -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+  /* cores usadas na pagina */
+  :root{
+    --cream:#f9e9d2;
+    --cream-soft:#fdf3e6;
+    --dark:#282828;
+    --dark-soft:#3a3a3a;
+    --green:#18482d;
+    --green-deep:#103420;
+    --green-mid:#456854;
+    --green-light:#7b947a;
+  }
+
+  /* reseta os espacamentos padrao */
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  /* estilo geral da pagina */
+  body{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--cream);
+    font-family:'Montserrat',sans-serif;
+    color:var(--dark);
+    padding:40px 20px;
+  }
+
+  /* bloco principal */
+  .card{
+    width:100%;
+    max-width:380px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  /* logo */
+  .logo{
+    width:190px;
+    height:auto;
+    display:block;
+    margin:0 auto 2px;
+  }
+
+  /* frase abaixo da logo */
+  .tagline{
+    font-family:'Caveat',cursive;
+    font-weight:600;
+    font-size:1.55rem;
+    color:var(--green-mid);
+    text-align:center;
+    margin-bottom:34px;
+    letter-spacing:.01em;
+  }
+
+  /* formulario */
+  form{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  /* esconde o label sem tirar ele da acessibilidade */
+  .field label{
+    position:absolute;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+    clip:rect(0 0 0 0);
+    white-space:nowrap;
+  }
+
+  /* caixa dos campos */
+  .field-wrap{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:var(--dark);
+    border-radius:8px;
+    height:52px;
+    padding:0 16px;
+    border:1.5px solid transparent;
+    transition:border-color .2s ease, transform .12s ease;
+  }
+
+  /* destaca o campo qdo ele esta selecionado */
+  .field-wrap:focus-within{
+    border-color:var(--green-mid);
+  }
+
+  /* icone dos campos */
+  .field-wrap i.field-icon{
+    color:var(--cream);
+    font-size:.95rem;
+    width:16px;
+    text-align:center;
+    flex-shrink:0;
+  }
+
+  /* campos de entrada */
+  .field-wrap input{
+    flex:1;
+    width:100%;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:#ffffff;
+    font-family:'Montserrat',sans-serif;
+    font-weight:700;
+    font-size:.74rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+  }
+
+  /* texto q aparece antes de digitar */
+  .field-wrap input::placeholder{
+    color:#d9d4cb;
+    opacity:.65;
+  }
+
+  /* botao de mostrar ou esconder senha */
+  .toggle-pass{
+    background:none;
+    border:none;
+    color:var(--cream);
+    opacity:.75;
+    font-size:.9rem;
+    cursor:pointer;
+    padding:6px;
+    flex-shrink:0;
+    transition:opacity .15s ease;
+  }
+
+  /* efeito do botao da senha */
+  .toggle-pass:hover{
+    opacity:1;
+  }
+
+  /* linha com opcoes do login */
+  .row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:2px 2px 0;
+    font-size:.7rem;
+    letter-spacing:.04em;
+  }
+
+  /* checkbox de lembrar login */
+  .remember input{
+    appearance:none;
+    width:15px;
+    height:15px;
+    border:1.5px solid var(--green-mid);
+    border-radius:3px;
+    cursor:pointer;
+    position:relative;
+    flex-shrink:0;
+    background:var(--cream-soft);
+  }
+
+  /* checkbox marcado */
+  .remember input:checked{
+    background:var(--green);
+    border-color:var(--green);
+  }
+
+  /* marca do checkbox */
+  .remember input:checked::after{
+    content:'';
+    position:absolute;
+    left:4px;
+    top:1px;
+    width:4px;
+    height:8px;
+    border:solid var(--cream);
+    border-width:0 2px 2px 0;
+    transform:rotate(45deg);
+  }
+
+  /* mensagem de erro */
+  .error-message{
+    display:none;
+    color:#c0625a;
+    margin-top:5px;
+    font-size:14px;
+  }
+
+  /* mostra a mensagem de erro */
+  .error-message.show{
+    display:block;
+  }
+
+  /* destaca o campo com erro */
+  .input-error{
+    border:1px solid #c0625a !important;
+  }
+
+  /* link de esqueci a senha */
+  .forgot{
+display:table;
+margin:0 auto;
+color:var(--green-mid);
+text-decoration:none;
+font-weight:700;
+text-transform:uppercase;
+letter-spacing:.06em;
+font-size:.65rem;
+transition:color .15s ease;
+}
+
+  /* efeito do link qdo passa o mouse */
+  .forgot:hover{
+    color:var(--green);
+    border-color:var(--green-mid);
+  }
+
+  /* botao principal */
+  .btn-primary{
+    margin-top:10px;
+    height:54px;
+    border:none;
+    border-radius:10px;
+    background:var(--green);
+    color:var(--cream-soft);
+    font-family:'Montserrat',sans-serif;
+    font-weight:800;
+    font-size:.95rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:background .2s ease, transform .12s ease, box-shadow .2s ease;
+  }
+
+  /* efeito do botao qdo passa o mouse */
+  .btn-primary:hover{
+    background:var(--green-deep);
+    transform:translateY(-1px);
+    box-shadow:0 6px 16px -8px rgba(16,52,32,.6);
+  }
+
+  /* efeito do botao qdo clica */
+  .btn-primary:active{
+    transform:translateY(0);
+  }
+
+  /* separador */
+  .divider{
+    position:relative;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:32px 0 22px;
+  }
+
+  /* linha do separador */
+  .divider::before{
+    content:'';
+    position:absolute;
+    left:0;
+    right:0;
+    top:50%;
+    height:1px;
+    background:var(--green-light);
+    opacity:.35;
+  }
+
+  /* conteudo do separador */
+  .divider span{
+    position:relative;
+    background:var(--cream);
+    padding:0 16px;
+    font-family:'Caveat',cursive;
+    font-weight:600;
+    font-size:1.25rem;
+    color:var(--green-mid);
+  }
+
+  /* texto de cadastro */
+  .signup-link{
+    text-align:center;
+    font-size:.78rem;
+    color:var(--green-mid);
+    letter-spacing:.02em;
+  }
+
+  /* link de cadastro */
+  .signup-link a{
+    color:var(--green);
+    font-weight:800;
+    text-decoration:none;
+    border-bottom:1.5px solid var(--green-light);
+    transition:border-color .15s ease;
+  }
+
+  /* efeito do link de cadastro */
+  .signup-link a:hover{
+    border-color:var(--green);
+  }
+
+  /* ajustes pra telas menores */
+  @media (max-width:340px){
+    .logo{
+      width:160px;
+    }
+
+    .tagline{
+      font-size:1.35rem;
+    }
+  }
+
+  /* destaque de acessibilidade ao navegar pelo teclado */
+  :focus-visible{
+    outline:2px solid var(--green-mid);
+    outline-offset:2px;
+  }
+</style>
+</head>
+
+<body>
+  <main class="card">
+
+    <!-- logo -->
+    <img class="logo" src="/imagens/logoquiri.png" alt="logo quiri">
+
+    <!-- frase debaixo da logo -->
+    <p class="tagline">A melhor ferramenta para você!</p>
+
+    <!-- formulario de login -->
+    <form id="formLogin" autocomplete="on">
+
+      <!-- campo login -->
+      <div class="field">
+        <label for="login">E-mail ou usuário</label>
+
+        <div class="field-wrap">
+          <i class="field-icon fa-solid fa-envelope" aria-hidden="true"></i>
+
+          <input
+            id="login"
+            name="login"
+            type="text"
+            placeholder="E-MAIL"
+            required
+          >
+        </div>
+      </div>
+
+      <!-- campo senha -->
+      <div class="field">
+        <label for="password">Senha</label>
+
+        <div class="field-wrap">
+          <i class="field-icon fa-solid fa-lock"></i>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="PASSWORD"
+            autocomplete="current-password"
+            required
+          >
+
+          <!-- botao pra mostrar ou esconder a senha -->
+          <button type="button" class="toggle-pass" id="togglePass">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+        </div>
+
+        <!-- mensagem de erro do login -->
+        <p id="err-login" class="error-message">
+          E-mail ou senha incorretos.
+        </p>
+      </div>
+
+      <!-- link pra recuperar a senha -->
+      <a class="forgot" href="esqueci-senha.html">Esqueceu a senha?</a>
+      </div>
+
+      <!-- envia o formlario -->
+      <button type="submit" class="btn-primary">
+        Entrar
+      </button>
+    </form>
+
+    <!-- separador da tela -->
+    <div class="divider">
+      <span></span>
+    </div>
+
+    <!-- link pra criar uma conta -->
+    <p class="signup-link">
+      Não tem conta?
+      <a href="cadastro-nutricionista.html">Cadastre-se</a>
+    </p>
+
+  </main>
+
+  <script>
+
+    // pega os elementos do formulari
+    const formularioLogin = document.getElementById("formLogin");
+    const campoLogin = document.getElementById("login");
+    const campoSenha = document.getElementById("password");
+    const mensagemErro = document.getElementById("err-login");
+
+    // pega o botao q mostra e esconde a senha
+    const toggle = document.getElementById("togglePass");
+
+    // alterna a visualizacao da senha
+    toggle.addEventListener("click", function () {
+      const isHidden = campoSenha.type === "password";
+
+      campoSenha.type = isHidden ? "text" : "password";
+
+      toggle.setAttribute(
+        "aria-pressed",
+        String(isHidden)
+      );
+
+      toggle.setAttribute(
+        "aria-label",
+        isHidden ? "Ocultar senha" : "Mostrar senha"
+      );
+
+      toggle.innerHTML = isHidden
+        ? '<i class="fa-solid fa-eye-slash" aria-hidden="true"></i>'
+        : '<i class="fa-solid fa-eye" aria-hidden="true"></i>';
+    });
+
+    // envia o login pro back
+    formularioLogin.addEventListener("submit", async function (evento) {
+
+      // impede q a página seja recarregada
+      evento.preventDefault();
+
+      const email = campoLogin.value.trim();
+      const senha = campoSenha.value;
+
+      // limpa a mensagem de erro anterior
+      mensagemErro.classList.remove("show");
+
+      campoLogin.parentElement.classList.remove("input-error");
+      campoSenha.parentElement.classList.remove("input-error");
+
+      try {
+
+        // envia os dados pra a rota de login
+        const resposta = await fetch("/api/nutricionista/login", {
+          method: "POST",
+
+          // informa q os dados estao sendo enviados em json
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          // envia email e senha pro back
+          body: JSON.stringify({
+            email: email,
+            senha: senha
+          })
+        });
+
+        // recebe a resposta do backend
+        const resultado = await resposta.json();
+
+        // verifica se o backend retornou erro
+        if (!resposta.ok) {
+
+          mensagemErro.textContent =
+            resultado.mensagem || "E-mail ou senha incorretos.";
+
+          mensagemErro.classList.add("show");
+
+          campoLogin.parentElement.classList.add("input-error");
+          campoSenha.parentElement.classList.add("input-error");
+
+          return;
+        }
+
+        // salva o uid da nutricionista q fez login
+        localStorage.setItem(
+          "uidNutricionista",
+          resultado.uid
+        );
+
+        // vai direto pra o dashboard
+        window.location.href = "dashboard.html";
+
+      } catch (erro) {
+        // mostra erro qnd nao consegue conectar com o servidor
+        console.error("Erro ao fazer login:", erro);
+
+        mensagemErro.textContent =
+          "Erro ao conectar com o servidor.";
+
+        mensagemErro.classList.add("show");
+      }
+    });
+
+  </script>
+</body>
+</html>
