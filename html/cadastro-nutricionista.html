@@ -520,8 +520,8 @@
                     <input
                         type="password"
                         id="cad-senha"
-                        placeholder="MÍNIMO 8 CARACTERES"
-                        minlength="8"
+                        placeholder="MÍNIMO 6 CARACTERES"
+                        minlength="6"
                         autocomplete="new-password"
                         oninput="checkPwStrength(this.value)">
 
@@ -563,7 +563,7 @@
                         type="password"
                         id="cad-senha2"
                         placeholder="REPITA A SENHA"
-                        minlength="8"
+                        minlength="6"
                         autocomplete="new-password">
 
                     <!-- permite mostrar ou esconder a confirmacao da senha -->
@@ -751,9 +751,9 @@
             }
 
             // verifica o tamanho da senha
-            if (s1.length < 8) {
+            if (s1.length < 6) {
                 showToast(
-                    '⚠ A senha deve ter no mínimo 8 caracteres.',
+                    '⚠ A senha deve ter no mínimo 6 caracteres.',
                     '#c0625a'
                 );
                 return;

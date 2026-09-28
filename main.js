@@ -143,11 +143,11 @@ app.post(
             }
 
             // verifica o tamanho minimo da senha
-            if (senha.length < 8) {
+            if (senha.length < 6) {
 
                 return res.status(400).json({
                     mensagem:
-                        "A senha deve ter no mínimo 8 caracteres."
+                        "A senha deve ter no mínimo 6 caracteres."
                 });
 
             }
